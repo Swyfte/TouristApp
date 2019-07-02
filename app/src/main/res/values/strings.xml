@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">I Am A Tourist</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">I\'m A Tourist</string>
+    <string name="nav_header_subtitle">Image Sorting for Travellers</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="options_desc">Options button</string>
+    <string name="image_desc">Image from file</string>
+
+    <string name="menu_search">Search</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Trips</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_login">Log In</string>
+    <string name="menu_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fullscreen_button_desc">Fullscreen Button</string>
+    <string name="search_by_tags">Search by Tags</string>
+    <string name="search_by_location">Search by Location</string>
+    <string name="search_by_trip">Search by Trip</string>
+    <string name="random">Random</string>
+</resources>
