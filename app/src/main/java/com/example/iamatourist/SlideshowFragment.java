@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 /**
@@ -66,7 +67,15 @@ public class SlideshowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_slideshow, container, false);
+        View slideView = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        final SearchView searchBar = slideView.findViewById(R.id.slide_search);
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBar.setIconified(false);
+            }
+        });
+        return slideView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

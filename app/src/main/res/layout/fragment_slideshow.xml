@@ -35,8 +35,8 @@
             app:layout_constraintBottom_toBottomOf="@id/carouselView"
             app:layout_constraintRight_toRightOf="@id/carouselView" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_bar"
+        <SearchView
+            android:id="@+id/slide_search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_bar">
+            app:layout_constraintTop_toBottomOf="@id/slide_search">
 
             <RadioButton
                 android:layout_width="wrap_content"

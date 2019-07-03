@@ -1,6 +1,7 @@
 package com.example.iamatourist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +24,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GalleryFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener,
+        SlideshowFragment.OnFragmentInteractionListener,
+        TripsFragment.OnFragmentInteractionListener,
+        SearchFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,9 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(i,0);
             }
         });
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.contentContainer, (new GalleryFragment()));
+        transaction.commit();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,10 +73,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment f = null;
+        Fragment f = new Fragment();
 
         if (id == R.id.nav_home) {
             f = new GalleryFragment();
+        } else if (id == R.id.nav_Search) {
+            f = new SearchFragment();
         } else if (id == R.id.nav_trips) {
             f = new TripsFragment();
         } else if (id == R.id.nav_slideshow) {
@@ -76,7 +87,7 @@ public class MainActivity extends AppCompatActivity
             f = new SettingsFragment();
         }
 
-        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer, f);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -84,5 +95,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri){
+
     }
 }
