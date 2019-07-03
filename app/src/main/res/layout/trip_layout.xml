@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/TopImage"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:elevation="4dp"
+        android:contentDescription="@string/image_desc"/>
+    <ImageView
+        android:id="@+id/MidImage"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:scaleType="centerCrop"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="@id/TopImage"
+        app:layout_constraintLeft_toLeftOf="@id/TopImage"
+        android:elevation="2dp"
+        android:contentDescription="@string/image_desc"/>
+    <ImageView
+        android:id="@+id/BottomImage"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:scaleType="centerCrop"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="@id/MidImage"
+        app:layout_constraintLeft_toLeftOf="@id/MidImage"
+        android:elevation="0dp"
+        android:contentDescription="@string/image_desc"/>
+    <TextView
+        android:id="@+id/tripName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/BottomImage"
+        app:layout_constraintLeft_toLeftOf="@id/TopImage"
+        app:layout_constraintRight_toLeftOf="@id/menu_button"
+        android:text="@string/example_trip_title"/>
+
+    <ImageButton
+        android:id="@+id/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/BottomImage"
+        app:layout_constraintRight_toRightOf="@id/BottomImage"
+        android:background="#00FFFFFF"
+        tools:src="@drawable/ic_menu_black"
+        android:contentDescription="@string/options_desc"
+        app:menu="@menu/trip_options_menu"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
