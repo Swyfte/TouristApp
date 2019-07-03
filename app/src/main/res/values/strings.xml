@@ -23,4 +23,10 @@
     <string name="search_by_location">Search by Location</string>
     <string name="search_by_trip">Search by Trip</string>
     <string name="random">Random</string>
+    <string name="example_trip_title">example trip title</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_move">Move</string>
+    <string name="menu_delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="trip_details">Trip Details</string>
 </resources>
