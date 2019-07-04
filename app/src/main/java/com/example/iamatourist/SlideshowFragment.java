@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -73,6 +74,13 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 searchBar.setIconified(false);
+            }
+        });
+        final ImageButton fullscreen = slideView.findViewById(R.id.fullscreenButton);
+        fullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         return slideView;
