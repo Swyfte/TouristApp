@@ -27,22 +27,32 @@
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
             style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_horizontal"
             android:background="@color/black_overlay"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             tools:ignore="UselessParent">
 
-            
+            <ImageButton
+                android:id="@+id/fav_button"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:contentDescription="@string/fav_button_off"
+                android:src="@drawable/ic_favorite_border_white_50percent" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/exit_fullscreen_button"
                 style="?metaButtonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_navigation_fullscreen_exit"
-                android:background="@color/transparent"/>
+                android:background="@color/transparent"
+                android:contentDescription="@string/exit_fullscreen"
+                android:src="@drawable/ic_navigation_fullscreen_exit" />
 
         </LinearLayout>
 
