@@ -31,4 +31,8 @@
     <string name="trip_details">Trip Details</string>
     <string name="fav_button_off">favourite button unpressed</string>
     <string name="favourites">Favourites</string>
+
+    <string name="title_activity_fullscreen_slideshow">FullscreenSlideshowActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
