@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:rowCount="5"
-    android:columnCount="3"
-    android:useDefaultMargins="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/ImageView"
-        android:layout_width="@dimen/image_size"
-        android:layout_height="@dimen/image_size"
-        android:layout_marginBottom="8dp"
-        android:layout_column="0"
-        android:layout_row="0"
-        android:layout_columnSpan="3"
-        android:layout_rowSpan="4"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/image_desc" />
-
-    <ImageButton
-        android:id="@+id/fav_button"
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        tools:srcCompat="@drawable/ic_favorite_border_white_50percent"
-        android:layout_column="1"
-        android:layout_rowSpan="2"
-        android:layout_row="3"
-        android:elevation="2dp"
-        android:contentDescription="@string/fav_button_off"/>
+        android:columnCount="3"
+        android:rowCount="3"
+        tools:ignore="UselessParent">
 
-    <ImageButton
-        android:id="@+id/options_Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        tools:srcCompat="@drawable/ic_image_menu"
-        android:layout_column="2"
-        android:layout_row="4"
-        android:layout_rowSpan="2"
-        android:contentDescription="@string/options_desc"
-        app:menu="@menu/image_options_menu"/>
+        <ImageView
+            android:id="@+id/photoView"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowSpan="2"
+            android:layout_columnSpan="3"
+            tools:srcCompat="@drawable/ic_photo_large"
+            android:contentDescription="@string/image_desc"
+            />
 
-    <TextView
-        android:id="@+id/title_View"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_row="5"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:text="@{image.title}"
-        />
-</GridLayout>
+        <ImageButton
+            android:id="@+id/fav_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:background="@color/transparent"
+            android:elevation="2dp"
+            tools:srcCompat="@drawable/ic_favorite_border_white_50percent"
+            android:contentDescription="@string/fav_button_off"
+            />
+
+        <ImageButton
+            android:id="@+id/options_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_rowSpan="2"
+            android:layout_column="2"
+            android:background="@color/transparent"
+            android:elevation="2dp"
+            tools:srcCompat="@drawable/ic_image_menu"
+            android:contentDescription="@string/options_desc"
+            android:layout_gravity="bottom|end"
+            app:menu="@menu/image_options_menu"
+            />
+
+        <TextView
+            android:id="@+id/img_title"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:text="@string/image_desc"
+            />
+
+    </GridLayout>
+</FrameLayout>

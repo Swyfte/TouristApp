@@ -45,4 +45,5 @@
     <string name="camera">Camera</string>
     <string name="location">Location</string>
     <string name="gallery_access">Gallery access</string>
+    <string name="add_photo_button">Add photo button</string>
 </resources>
