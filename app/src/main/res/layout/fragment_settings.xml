@@ -60,15 +60,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             />
 
-        <View
-            android:id="@+id/delete_divider"
-            android:layout_width="376dp"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gallery_perm_switch"
-            />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
