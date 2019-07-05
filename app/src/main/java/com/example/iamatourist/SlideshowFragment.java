@@ -1,6 +1,7 @@
 package com.example.iamatourist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -80,17 +81,16 @@ public class SlideshowFragment extends Fragment {
         fullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                launchFullscreen();
             }
         });
         return slideView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void launchFullscreen() {
+        Intent i = new Intent(getActivity(), FullscreenActivity.class);
+
+        getActivity().startActivity(i);
     }
 
     @Override
