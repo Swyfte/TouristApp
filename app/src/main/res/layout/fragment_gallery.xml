@@ -20,4 +20,5 @@
             android:layout_height="180dp"
             tools:src="@drawable/ic_add_a_photo_white"
             android:contentDescription="@string/add_photo_button"/>
+
 </FrameLayout>

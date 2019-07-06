@@ -1,6 +1,7 @@
 package com.example.iamatourist;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -60,6 +61,31 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void firstDialog(image img) {
+        /*
+         * dialog shows:
+         * Image at top
+         * Date selector
+         * Time spinner
+         * Location, name?
+         * auto fill button
+         * next button
+         */
+    }
+
+    private image secondDialog(image img) {
+        /*
+         * dialog shows:
+         * Image at top
+         * title edit text
+         * description edit text
+         * tags... Like EyeEm?
+         * Back button
+         * next button
+         */
+        return img;
     }
 
     @Override
