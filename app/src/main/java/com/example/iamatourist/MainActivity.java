@@ -1,6 +1,10 @@
 package com.example.iamatourist;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +16,8 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -32,7 +38,9 @@ public class MainActivity extends AppCompatActivity
         SettingsFragment.OnFragmentInteractionListener,
         SlideshowFragment.OnFragmentInteractionListener,
         TripsFragment.OnFragmentInteractionListener,
-        SearchFragment.OnFragmentInteractionListener{
+        SearchFragment.OnFragmentInteractionListener {
+
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +49,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            fab.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(i,0);
+                startActivityForResult(i, 0);
             }
         });
         if (savedInstanceState == null) {
@@ -54,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.contentContainer, (new GalleryFragment()));
             transaction.commit();
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,29 +76,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void firstDialog(image img) {
-        /*
-         * dialog shows:
-         * Image at top
-         * Date selector
-         * Time spinner
-         * Location, name?
-         * auto fill button
-         * next button
-         */
-    }
-
-    private image secondDialog(image img) {
-        /*
-         * dialog shows:
-         * Image at top
-         * title edit text
-         * description edit text
-         * tags... Like EyeEm?
-         * Back button
-         * next button
-         */
-        return img;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                fab.setEnabled(true);
+            }
+        }
     }
 
     @Override
@@ -128,7 +126,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle
+            outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri){
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

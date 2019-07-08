@@ -49,11 +49,10 @@
     <string name="cancel_image_add">Cancel Image Add</string>
     <string name="select_date">Select Date</string>
     <string name="auto_fill">Auto-fill</string>
-    <string name="location">Location</string>
     <string name="next_screen_button">Next Screen button</string>
     <string name="select_time">Select Time</string>
-    <string name="title">Title...</string>
-    <string name="description">Description...</string>
-    <string name="tags">Tags...</string>
+    <string name="title">Title…</string>
+    <string name="description">Description…</string>
+    <string name="tags">Tags…</string>
     <string name="submit">Submit</string>
 </resources>
