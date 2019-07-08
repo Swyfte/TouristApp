@@ -46,4 +46,6 @@
     <string name="location">Location</string>
     <string name="gallery_access">Gallery access</string>
     <string name="add_photo_button">Add photo button</string>
+    <string name="cancel_image_add">Cancel Image Add</string>
+    <string name="select_date">Select Date</string>
 </resources>
