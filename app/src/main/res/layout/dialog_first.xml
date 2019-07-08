@@ -15,38 +15,58 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/cancel_button" />
 
-    <Button
-        android:id="@+id/date_button"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/select_date"
         android:layout_margin="8dp"
+        android:inputType="date"
+        android:hint="@string/select_date"
         app:layout_constraintTop_toBottomOf="@id/image_preview"
-        app:layout_constraintLeft_toLeftOf="@id/image_preview"/>
+        app:layout_constraintLeft_toLeftOf="@id/image_preview"
+        app:layout_constraintRight_toRightOf="@id/image_preview"/>
+
+    <EditText
+        android:id="@+id/edit_time"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:inputType="time"
+        android:hint="@string/select_time"
+        app:layout_constraintTop_toBottomOf="@id/edit_date"
+        app:layout_constraintLeft_toLeftOf="@id/image_preview"
+        app:layout_constraintRight_toRightOf="@id/image_preview"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/loc_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_margin="8dp"
+        android:text="@string/location"
+        app:layout_constraintTop_toBottomOf="@id/edit_time"
+        app:layout_constraintLeft_toLeftOf="@id/image_preview"
+        app:layout_constraintRight_toRightOf="@id/image_preview"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/auto_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_margin="8dp"
+        android:text="@string/auto_fill"
+        app:layout_constraintLeft_toLeftOf="@id/image_preview"
+        app:layout_constraintTop_toBottomOf="@id/loc_button"
+        app:layout_constraintRight_toLeftOf="@id/next_button"/>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_forward_200_24dp" />
+        android:background="@color/transparent"
+        android:contentDescription="@string/next_screen_button"
+        app:layout_constraintLeft_toRightOf="@id/auto_button"
+        app:layout_constraintTop_toTopOf="@id/auto_button"
+        app:layout_constraintRight_toRightOf="@id/image_preview"
+        app:srcCompat="@drawable/ic_arrow_forward_200_24dp"/>
 
     <ImageButton
         android:id="@+id/cancel_button"
