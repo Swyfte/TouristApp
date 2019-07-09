@@ -3,6 +3,7 @@ package com.example.iamatourist;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
@@ -22,6 +23,10 @@ import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -31,6 +36,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -85,6 +92,41 @@ public class MainActivity extends AppCompatActivity
                 fab.setEnabled(true);
             }
         }
+    }
+
+    /**
+     * Uses a custom dialog to display my popup interface
+     * @param imageLoc
+     * @return returns an image with half the data filled in
+     */
+    private image firstDialog(final Uri imageLoc) {
+        final Context context = this;
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_first);
+        final ImageView image = dialog.findViewById(R.id.image_preview);
+        image.setImageURI(imageLoc);
+
+        TextView date = dialog.findViewById(R.id.edit_date);
+        TextView time = dialog.findViewById(R.id.edit_time);
+        Button loc = dialog.findViewById(R.id.loc_button);
+        Button auto = dialog.findViewById(R.id.auto_button);
+        ImageButton next = dialog.findViewById(R.id.next_button);
+        ImageButton close = dialog.findViewById(R.id.cancel_button);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File img = new File(imageLoc.getPath());
+                if (img.exists()) {
+                    img.delete();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+        return new image();
     }
 
     @Override
