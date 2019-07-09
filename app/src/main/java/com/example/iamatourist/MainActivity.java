@@ -95,11 +95,12 @@ public class MainActivity extends AppCompatActivity
      * @return returns an Image with half the data filled in
      */
     private Image firstDialog(final Uri imageLoc) {
+        final Image image = new Image();
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
-        final ImageView image = dialog.findViewById(R.id.image_preview);
-        image.setImageURI(imageLoc);
+        final ImageView imagePrev = dialog.findViewById(R.id.image_preview);
+        imagePrev.setImageURI(imageLoc);
 
         TextView date = dialog.findViewById(R.id.edit_date);
         TextView time = dialog.findViewById(R.id.edit_time);
@@ -118,10 +119,17 @@ public class MainActivity extends AppCompatActivity
                 dialog.dismiss();
             }
         });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                secondDialog(image);
+            }
+        });
 
         dialog.show();
 
-        return new Image();
+        return image;
     }
 
     private Image secondDialog(final Image img) {
