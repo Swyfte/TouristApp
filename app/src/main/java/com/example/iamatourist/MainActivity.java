@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom dialog to display my popup interface
-     * @param imageLoc
+     * @param imageLoc The location of the image file
      * @return returns an image with half the data filled in
      */
     private image firstDialog(final Uri imageLoc) {
