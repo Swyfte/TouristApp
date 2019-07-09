@@ -1,12 +1,9 @@
 package com.example.iamatourist;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,8 +14,6 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -96,10 +91,10 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom dialog to display my popup interface
-     * @param imageLoc The location of the image file
-     * @return returns an image with half the data filled in
+     * @param imageLoc The location of the Image file
+     * @return returns an Image with half the data filled in
      */
-    private image firstDialog(final Uri imageLoc) {
+    private Image firstDialog(final Uri imageLoc) {
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
@@ -126,7 +121,38 @@ public class MainActivity extends AppCompatActivity
 
         dialog.show();
 
-        return new image();
+        return new Image();
+    }
+
+    private Image secondDialog(final Image img) {
+        final Context context = this;
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_second);
+
+        final ImageView image = dialog.findViewById(R.id.image_preview);
+        image.setImageBitmap(img.getPhoto());
+
+        TextView title = dialog.findViewById(R.id.EditTitle);
+        TextView desc = dialog.findViewById(R.id.EditDesc);
+        TextView tags = dialog.findViewById(R.id.EditTags);
+        Button submit = dialog.findViewById(R.id.submit_button);
+        ImageButton close = dialog.findViewById(R.id.cancel_button);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri loc = img.getFileLoc();
+                File img = new File(loc.getPath());
+                if (img.exists()) {
+                    img.delete();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+        return img;
     }
 
     @Override

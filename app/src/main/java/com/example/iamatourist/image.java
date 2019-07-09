@@ -1,21 +1,31 @@
 package com.example.iamatourist;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
-public class image {
+public class Image {
     private String title;
     private String desc;
     private Bitmap photo;
     private String[] tags;
+    private Uri fileLoc;
 
-    public image(String title, String desc, Bitmap photo, String[] tags) {
+    public Image(String title, String desc, Bitmap photo, String[] tags) {
         this.title = title;
         this.desc = desc;
         this.photo = photo;
         this.tags = tags;
     }
 
-    public image() {
+    public Uri getFileLoc() {
+        return fileLoc;
+    }
+
+    public void setFileLoc(Uri fileLoc) {
+        this.fileLoc = fileLoc;
+    }
+
+    public Image() {
     }
 
     public String getTitle() {

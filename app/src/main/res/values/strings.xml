@@ -36,7 +36,7 @@
     <string name="random">Random</string>
     <string name="favourites">Favourites</string>
 
-    <!--Fullscreen image-->
+    <!--Fullscreen Image-->
     <string name="title_activity_fullscreen_slideshow">FullscreenSlideshowActivity</string>
     <string name="exit_fullscreen">exit fullscreen</string>
 
