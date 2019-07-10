@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -79,6 +81,39 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 confirmDelete();
+            }
+        });
+        final Switch camera_perm = settingView.findViewById(R.id.camera_perm_switch);
+        camera_perm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        final Switch location_perm = settingView.findViewById(R.id.location_perm_switch);
+        location_perm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        final Switch gallery_perm = settingView.findViewById(R.id.gallery_perm_switch);
+        gallery_perm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return settingView;
