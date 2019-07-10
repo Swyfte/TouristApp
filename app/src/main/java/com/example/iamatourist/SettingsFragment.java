@@ -83,12 +83,14 @@ public class SettingsFragment extends Fragment {
                 confirmDelete();
             }
         });
+
+        //TODO Make permissions revoke on switch off
         final Switch camera_perm = settingView.findViewById(R.id.camera_perm_switch);
         camera_perm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
+                    cameraGrant();
                 } else {
                     Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
                 }
@@ -110,7 +112,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
                 }
@@ -119,6 +120,19 @@ public class SettingsFragment extends Fragment {
         return settingView;
     }
 
+    /**
+     * Confirms the user wants to enable camera permissions
+     */
+    private void cameraGrant() {
+        final Context context = super.getContext();
+
+    }
+
+    /**
+     * A method that displays a confirmation dialog.
+     * This method is only called when the user presses the "Delete Galleries" button
+     */
+    //TODO - Actually delete links to galleries.
     private void confirmDelete() {
         final Context context = super.getContext();
         Dialog confirm = new AlertDialog.Builder(context)
