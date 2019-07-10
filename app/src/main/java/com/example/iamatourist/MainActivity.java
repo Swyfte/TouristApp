@@ -79,6 +79,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * This enables the fab if the app has got permission from the user to use the camera
+     * @param requestCode the code, in this case 0
+     * @param permissions the type of permission that it is asking for
+     * @param grantResults the results of the permission checks
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 0) {
@@ -90,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Uses a custom dialog to display my popup interface
+     * Uses a custom layout to display entry points for Time, Date and Location
      * @param imageLoc The location of the Image file
      * @return returns an Image with half the data filled in
      */
@@ -132,6 +138,11 @@ public class MainActivity extends AppCompatActivity
         return image;
     }
 
+    /**
+     * Uses a custom layout to display entry points for Title, desc and Tags
+     * @param img The image with the details from the previous screen
+     * @return Returns the image as an item
+     */
     private Image secondDialog(final Image img) {
         final Context context = this;
         final Dialog dialog = new Dialog(context);
@@ -163,6 +174,9 @@ public class MainActivity extends AppCompatActivity
         return img;
     }
 
+    /**
+     * This override closes the drawer if it's open, or otherwise calls the original onBackPressed
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -173,6 +187,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This override controls the navigation by switching the fragment displayed when an item
+     * on the drawer is selected
+     * @param item The item selected by the user
+     * @return Returns true, presumably to mark a success
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -202,6 +222,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This override prevents the data being lost when the activity is rebuilt,
+     * for example, when the screen is rotated
+     * @param outState the current state of the activity
+     * @param outPersistentState the state, in a persistent manner
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle
             outPersistentState) {
