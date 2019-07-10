@@ -47,16 +47,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //Connect the class to the layout
         setContentView(R.layout.activity_main);
+        //Connect the toolbar to the class
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = findViewById(R.id.fab);
-        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+        /*//Check permissions, if they're not given, disable the fab
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             fab.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
         */
+
+        //Locate the floating action button
+        fab = findViewById(R.id.fab);
+        //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(i, 0);
             }
         });
+        //On a new app launch,
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.contentContainer, (new GalleryFragment()));
