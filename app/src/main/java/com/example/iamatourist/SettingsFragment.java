@@ -1,6 +1,9 @@
 package com.example.iamatourist;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -66,15 +71,32 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final Context context = super.getContext();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View settingView = inflater.inflate(R.layout.fragment_settings, container, false);
+        final Button clear_button = settingView.findViewById(R.id.delete_button);
+        clear_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDelete();
+            }
+        });
+        return settingView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void confirmDelete() {
+        final Context context = super.getContext();
+        Dialog confirm = new AlertDialog.Builder(context)
+                .setTitle("Empty App Galleries?")
+                .setMessage("This will not delete the files from your device, and this action cannot be undone")
+                .setIcon(R.drawable.ic_warning_red_24dp)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, "Gallery deleted", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Override
