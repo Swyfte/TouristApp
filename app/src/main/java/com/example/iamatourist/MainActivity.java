@@ -70,19 +70,23 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(i, 0);
             }
         });
-        //On a new app launch,
+        //On a new app launch, start to the gallery screen
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.contentContainer, (new GalleryFragment()));
             transaction.commit();
         }
-
+        //Assign the drawer to the class
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        //Create the navigation header
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //Create a toggling action that changes whether the drawer is open or closed
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //Connect the toggle to the drawer as a listener
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        //Set the listener for the navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
     }
 
