@@ -76,14 +76,19 @@ public class SearchFragment extends Fragment {
                 searchBar.setIconified(false);
             }
         });
-        return searchFragmentView;
-    }
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        return searchFragmentView;
     }
 
     @Override
