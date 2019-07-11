@@ -41,4 +41,12 @@ public class Trip {
     public Image getTopImage(Integer index){
         return gallery.get(index);
     }
+
+    public ArrayList<Image> getGallery() {
+        return gallery;
+    }
+
+    public void setGallery(ArrayList<Image> gallery) {
+        this.gallery = gallery;
+    }
 }
