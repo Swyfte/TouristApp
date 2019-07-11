@@ -101,7 +101,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    Toast.makeText(context, "Permission granted",Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
                 }
