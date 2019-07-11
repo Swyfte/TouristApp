@@ -90,7 +90,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    cameraGrant();
                 } else {
                     Toast.makeText(context,"Permission revoked", Toast.LENGTH_SHORT).show();
                 }
@@ -117,14 +116,6 @@ public class SettingsFragment extends Fragment {
             }
         });
         return settingView;
-    }
-
-    /**
-     * Confirms the user wants to enable camera permissions
-     */
-    private void cameraGrant() {
-        final Context context = super.getContext();
-
     }
 
     /**
