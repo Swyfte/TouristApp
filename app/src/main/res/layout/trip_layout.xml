@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout>
+    <data>
+        <variable
+            name="trip"
+            type="com.example.iamatourist.Trip" />
+    </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/TopImage"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
-            android:contentDescription="@string/image_desc"
-            android:elevation="4dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/MidImage"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/image_desc"
-            android:elevation="2dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="@id/TopImage"
-            app:layout_constraintTop_toTopOf="@id/TopImage" />
-
-        <ImageView
-            android:id="@+id/BottomImage"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/image_desc"
-            android:scaleType="centerCrop"
-            app:layout_constraintLeft_toLeftOf="@id/MidImage"
-            app:layout_constraintTop_toTopOf="@id/MidImage" />
-
-
-        <TextView
-            android:id="@+id/tripName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/example_trip_title"
-            app:layout_constraintLeft_toLeftOf="@id/TopImage"
-            app:layout_constraintRight_toLeftOf="@id/menu_button"
-            app:layout_constraintTop_toBottomOf="@id/BottomImage" />
+            android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/options_desc"
-            app:layout_constraintRight_toRightOf="@id/BottomImage"
-            app:layout_constraintTop_toBottomOf="@id/BottomImage"
-            app:menu="@menu/trip_options_menu"
-            tools:src="@drawable/ic_menu_black" />
+            <ImageView
+                android:id="@+id/TopImage"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:contentDescription="@string/image_desc"
+                android:elevation="4dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+            <ImageView
+                android:id="@+id/MidImage"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/image_desc"
+                android:elevation="2dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="@id/TopImage"
+                app:layout_constraintTop_toTopOf="@id/TopImage" />
+
+            <ImageView
+                android:id="@+id/BottomImage"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/image_desc"
+                android:scaleType="centerCrop"
+                app:layout_constraintLeft_toLeftOf="@id/MidImage"
+                app:layout_constraintTop_toTopOf="@id/MidImage" />
+
+
+            <TextView
+                android:id="@+id/tripName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_trip_title"
+                app:layout_constraintLeft_toLeftOf="@id/TopImage"
+                app:layout_constraintRight_toLeftOf="@id/menu_button"
+                app:layout_constraintTop_toBottomOf="@id/BottomImage" />
+
+            <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/options_desc"
+                app:layout_constraintRight_toRightOf="@id/BottomImage"
+                app:layout_constraintTop_toBottomOf="@id/BottomImage"
+                app:menu="@menu/trip_options_menu"
+                tools:src="@drawable/ic_menu_black" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>
