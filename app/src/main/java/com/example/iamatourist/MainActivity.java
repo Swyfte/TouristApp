@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
     private final int CAMERA_REQUEST_CODE = 100;
+    private boolean hasCamera = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,13 @@ public class MainActivity extends AppCompatActivity
 
         //Locate the floating action button
         fab = findViewById(R.id.fab);
+        //Check the system build has a camera, if not, then disable and hide the fab
+        PackageManager packageManager = this.getPackageManager();
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            fab.setEnabled(false);
+            fab.hide();
+            hasCamera = false;
+        }
         //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 } else {*/
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(i, 0);
+                    startActivityForResult(i, CAMERA_REQUEST_CODE);
                 }
             //}
         });
@@ -106,7 +114,9 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case CAMERA_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fab.setEnabled(true);
+                    if (hasCamera) {
+                        fab.setEnabled(true);
+                    }
                 } else {
                     fab.setEnabled(false);
                 }
@@ -192,6 +202,15 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
 
         return img;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+            }
+        }
     }
 
     /**
