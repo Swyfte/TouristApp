@@ -60,7 +60,10 @@ public class MainActivity extends AppCompatActivity
 
         //Locate the floating action button
         fab = findViewById(R.id.fab);
-        //Check the system build has a camera, if not, then disable and hide the fab
+        /* Check the system build has a camera, if not, then disable and hide the fab
+         * This is to prevent a case of the program attempting to launch a camera that isn't there.
+         * This should help prevent crashes.
+         */
         PackageManager packageManager = this.getPackageManager();
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
             fab.setEnabled(false);
