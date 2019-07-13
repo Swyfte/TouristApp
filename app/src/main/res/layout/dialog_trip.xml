@@ -5,6 +5,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/window_background"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_trip" />
+
     <EditText
         android:id="@+id/edit_title_trip"
         android:layout_width="250dp"
@@ -38,9 +46,19 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:contentDescription="@string/cancel_image_add"
+        android:elevation="2dp"
+        app:layout_constraintLeft_toRightOf="@id/edit_title_trip"
         app:layout_constraintRight_toRightOf="@id/edit_title_trip"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_cancel_pink_24dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/circle"
+        app:layout_constraintLeft_toLeftOf="@id/cancel_button_trip"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_trip" />
 
     <Button
         android:id="@+id/submit_btn_trip"
