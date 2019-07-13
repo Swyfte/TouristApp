@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -35,6 +39,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -138,11 +145,20 @@ public class MainActivity extends AppCompatActivity
      * @param imageLoc The location of the Image file
      * @return returns an Image with half the data filled in
      */
-    private Image firstDialog(final Uri imageLoc) {
+    private void firstDialog(final Uri imageLoc) {
         final Image image = new Image();
         final Context context = this;
+        try {
+            image.setPhoto(MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageLoc));
+        } catch (IOException e) {
+            Toast.makeText(context, "File not found", Toast.LENGTH_SHORT).show();
+        }
+
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
+        dialog.getWindow().
+
+                setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final ImageView imagePrev = dialog.findViewById(R.id.image_preview_1);
         imagePrev.setImageURI(imageLoc);
@@ -185,8 +201,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         dialog.show();
-
-        return image;
     }
 
     /**
@@ -199,6 +213,7 @@ public class MainActivity extends AppCompatActivity
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_second);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final ImageView image = dialog.findViewById(R.id.image_preview_1);
         image.setImageBitmap(img.getPhoto());
@@ -230,16 +245,17 @@ public class MainActivity extends AppCompatActivity
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_trip);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        EditText titleBox = dialog.findViewById(R.id.edit_title_trip);
-        Button dateButton = dialog.findViewById(R.id.date_button_trip);
+        final EditText titleBox = dialog.findViewById(R.id.edit_title_trip);
+        final Button dateButton = dialog.findViewById(R.id.date_button_trip);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO display date picker dialog
             }
         });
-        Button locButton = dialog.findViewById(R.id.loc_button_trip);
+        final Button locButton = dialog.findViewById(R.id.loc_button_trip);
         locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -258,6 +274,9 @@ public class MainActivity extends AppCompatActivity
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentTrip = new Trip();
+                currentTrip.setTitle(titleBox.getText().toString());
+                dialog.dismiss();
                 //TODO publish trip to global variable and make persistent
             }
         });
