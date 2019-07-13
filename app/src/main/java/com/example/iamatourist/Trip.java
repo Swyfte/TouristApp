@@ -1,5 +1,7 @@
 package com.example.iamatourist;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,6 +9,7 @@ public class Trip {
     private ArrayList<Image> gallery;
     private String title;
     private Date date;
+    private Location loc;
 
     public Trip() {
         this.gallery = new ArrayList<>();
