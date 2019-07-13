@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <EditText
+        android:id="@+id/edit_title_trip"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/date_button_trip"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/departure_date"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        app:layout_constraintTop_toBottomOf="@id/edit_title_trip" />
+
+    <Button
+        android:id="@+id/loc_button_trip"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/location"
+        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        app:layout_constraintTop_toBottomOf="@id/date_button_trip" />
+
+    <ImageButton
+        android:id="@+id/cancel_button_trip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:contentDescription="@string/cancel_image_add"
+        app:layout_constraintRight_toRightOf="@id/edit_title_trip"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_pink_24dp" />
+
+    <Button
+        android:id="@+id/submit_btn_trip"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/submit"
+        app:layout_constraintLeft_toLeftOf="@id/loc_button_trip"
+        app:layout_constraintRight_toRightOf="@id/loc_button_trip"
+        app:layout_constraintTop_toBottomOf="@id/loc_button_trip" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
