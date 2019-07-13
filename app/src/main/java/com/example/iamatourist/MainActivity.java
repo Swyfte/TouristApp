@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.os.Environment;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab;
     private final int CAMERA_REQUEST_CODE = 100;
     private boolean hasCamera = true;
+    private Trip currentTrip = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity
          * This should help prevent crashes.
          */
         PackageManager packageManager = this.getPackageManager();
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             fab.setEnabled(false);
             fab.hide();
             hasCamera = false;
@@ -76,12 +79,15 @@ public class MainActivity extends AppCompatActivity
 
                     } else {
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-                    }
-                } else {*/
+                    }} else {*/
+                if (currentTrip != null) {
+                    File saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(i, CAMERA_REQUEST_CODE);
+                } else {
+                    tripDialog();
                 }
-            //}
+            }//}
         });
         //On a new app launch, start to the gallery screen
         if (savedInstanceState == null) {
@@ -105,8 +111,9 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * This enables the fab if the app has got permission from the user to use the camera
-     * @param requestCode the code, in this case 0
-     * @param permissions the type of permission that it is asking for
+     *
+     * @param requestCode  the code, in this case 0
+     * @param permissions  the type of permission that it is asking for
      * @param grantResults the results of the permission checks
      */
     @Override
@@ -127,6 +134,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom layout to display entry points for Time, Date and Location
+     *
      * @param imageLoc The location of the Image file
      * @return returns an Image with half the data filled in
      */
@@ -135,15 +143,27 @@ public class MainActivity extends AppCompatActivity
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
-        final ImageView imagePrev = dialog.findViewById(R.id.image_preview);
+        final ImageView imagePrev = dialog.findViewById(R.id.image_preview_1);
         imagePrev.setImageURI(imageLoc);
 
-        TextView date = dialog.findViewById(R.id.edit_date);
-        TextView time = dialog.findViewById(R.id.edit_time);
-        Button loc = dialog.findViewById(R.id.loc_button);
-        Button auto = dialog.findViewById(R.id.auto_button);
-        ImageButton next = dialog.findViewById(R.id.next_button);
-        ImageButton close = dialog.findViewById(R.id.cancel_button);
+        Button date = dialog.findViewById(R.id.date_btn_img);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO Open date picker dialog
+            }
+        });
+        Button time = dialog.findViewById(R.id.time_btn_img);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO Open time picker dialog
+            }
+        });
+        Button loc = dialog.findViewById(R.id.loc_btn_img);
+        Button auto = dialog.findViewById(R.id.auto_btn);
+        ImageButton next = dialog.findViewById(R.id.next_btn_img_1);
+        ImageButton close = dialog.findViewById(R.id.cancel_button_1);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +190,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom layout to display entry points for Title, desc and Tags
+     *
      * @param img The image with the details from the previous screen
      * @return Returns the image as an item
      */
@@ -178,14 +199,14 @@ public class MainActivity extends AppCompatActivity
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_second);
 
-        final ImageView image = dialog.findViewById(R.id.image_preview);
+        final ImageView image = dialog.findViewById(R.id.image_preview_1);
         image.setImageBitmap(img.getPhoto());
 
-        TextView title = dialog.findViewById(R.id.EditTitle);
-        TextView desc = dialog.findViewById(R.id.EditDesc);
-        TextView tags = dialog.findViewById(R.id.EditTags);
-        Button submit = dialog.findViewById(R.id.submit_button);
-        ImageButton close = dialog.findViewById(R.id.cancel_button);
+        TextView title = dialog.findViewById(R.id.title_edit_img);
+        TextView desc = dialog.findViewById(R.id.desc_edit_img);
+        TextView tags = dialog.findViewById(R.id.tags_edit_img);
+        Button submit = dialog.findViewById(R.id.submit_btn_img);
+        ImageButton close = dialog.findViewById(R.id.cancel_button_2);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,8 +225,38 @@ public class MainActivity extends AppCompatActivity
         return img;
     }
 
+    private void tripDialog() {
+        final Context context = this;
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_trip);
+
+        EditText titleBox = findViewById(R.id.edit_title_trip);
+        Button dateButton = findViewById(R.id.date_button_trip);
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO display date picker dialog
+            }
+        });
+        Button locButton = findViewById(R.id.loc_button_trip);
+        locButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO display location options
+            }
+        });
+        ImageButton cancelButton = findViewById(R.id.cancel_button_trip);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Uri u = data.getData();
@@ -230,6 +281,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * This override controls the navigation by switching the fragment displayed when an item
      * on the drawer is selected
+     *
      * @param item The item selected by the user
      * @return Returns true, presumably to mark a success
      */
@@ -241,14 +293,19 @@ public class MainActivity extends AppCompatActivity
         Fragment f = new Fragment();
 
         if (id == R.id.nav_home) {
+            fab.show();
             f = new GalleryFragment();
         } else if (id == R.id.nav_Search) {
+            fab.show();
             f = new SearchFragment();
         } else if (id == R.id.nav_trips) {
+            fab.show();
             f = new TripsFragment();
         } else if (id == R.id.nav_slideshow) {
+            fab.hide();
             f = new SlideshowFragment();
         } else if (id == R.id.nav_settings) {
+            fab.hide();
             f = new SettingsFragment();
         }
 
@@ -265,7 +322,8 @@ public class MainActivity extends AppCompatActivity
     /**
      * This override prevents the data being lost when the activity is rebuilt,
      * for example, when the screen is rotated
-     * @param outState the current state of the activity
+     *
+     * @param outState           the current state of the activity
      * @param outPersistentState the state, in a persistent manner
      */
     @Override
