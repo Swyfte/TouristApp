@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
+
         final ImageView imagePrev = dialog.findViewById(R.id.image_preview_1);
         imagePrev.setImageURI(imageLoc);
 
@@ -230,28 +231,37 @@ public class MainActivity extends AppCompatActivity
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_trip);
 
-        EditText titleBox = findViewById(R.id.edit_title_trip);
-        Button dateButton = findViewById(R.id.date_button_trip);
+        EditText titleBox = dialog.findViewById(R.id.edit_title_trip);
+        Button dateButton = dialog.findViewById(R.id.date_button_trip);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO display date picker dialog
             }
         });
-        Button locButton = findViewById(R.id.loc_button_trip);
+        Button locButton = dialog.findViewById(R.id.loc_button_trip);
         locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO display location options
             }
         });
-        ImageButton cancelButton = findViewById(R.id.cancel_button_trip);
+        ImageButton cancelButton = dialog.findViewById(R.id.cancel_button_trip);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
+
+        Button submit = dialog.findViewById(R.id.submit_btn_trip);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO publish trip to global variable and make persistent
+            }
+        });
+
         dialog.show();
     }
 
