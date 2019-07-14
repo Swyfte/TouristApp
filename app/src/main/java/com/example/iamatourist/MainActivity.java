@@ -1,13 +1,16 @@
 package com.example.iamatourist;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +21,7 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity
     private final int CAMERA_REQUEST_CODE = 100;
     private boolean hasCamera = true;
     private Trip currentTrip = null;
+    private File saveLoc = null;
+    private File cameraFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,19 @@ public class MainActivity extends AppCompatActivity
             fab.hide();
             hasCamera = false;
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Permission granted?
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Permission granted?
+            }
+        }
         //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +107,11 @@ public class MainActivity extends AppCompatActivity
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
                     }} else {*/
                 if (currentTrip != null) {
-                    File saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
+                    saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
+                    cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //TODO At this point, turn cameraFile into a Uri
+                    i.putExtra(MediaStore.EXTRA_OUTPUT, cameraFile);
                     startActivityForResult(i, CAMERA_REQUEST_CODE);
                 } else {
                     tripDialog();
@@ -142,17 +164,12 @@ public class MainActivity extends AppCompatActivity
     /**
      * Uses a custom layout to display entry points for Time, Date and Location
      *
-     * @param imageLoc The location of the Image file
      * @return returns an Image with half the data filled in
      */
-    private void firstDialog(final Uri imageLoc) {
+    private void firstDialog() {
         final Image image = new Image();
         final Context context = this;
-        try {
-            image.setPhoto(MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageLoc));
-        } catch (IOException e) {
-            Toast.makeText(context, "File not found", Toast.LENGTH_SHORT).show();
-        }
+        Bitmap img = BitmapFactory.decodeFile(cameraFile.getPath());
 
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_first);
@@ -161,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                 setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final ImageView imagePrev = dialog.findViewById(R.id.image_preview_1);
-        imagePrev.setImageURI(imageLoc);
+        imagePrev.setImageBitmap(img);
 
         Button date = dialog.findViewById(R.id.date_btn_img);
         date.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +202,7 @@ public class MainActivity extends AppCompatActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File img = new File(imageLoc.getPath());
+                File img = new File(cameraFile.getPath());
                 if (img.exists()) {
                     img.delete();
                 }
@@ -288,8 +305,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Uri u = data.getData();
-                firstDialog(u);
+                firstDialog();
             }
         }
     }
@@ -353,16 +369,14 @@ public class MainActivity extends AppCompatActivity
      * for example, when the screen is rotated
      *
      * @param outState           the current state of the activity
-     * @param outPersistentState the state, in a persistent manner
      */
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle
-            outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
