@@ -2,6 +2,7 @@ package com.example.iamatourist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -84,7 +85,17 @@ public class SlideshowFragment extends Fragment {
                 launchFullscreen();
             }
         });
+
         return slideView;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            launchFullscreen();
+        }
     }
 
     private void launchFullscreen() {
