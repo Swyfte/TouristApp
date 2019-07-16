@@ -41,6 +41,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
+    private Image currentImage = new Image();
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -123,6 +124,20 @@ public class FullscreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        final ImageButton favButton = findViewById(R.id.fav_button_fullsc);
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentImage.isFav()) {
+                    favButton.setImageResource(R.drawable.ic_favorite_border_white_50percent);
+                    currentImage.setFav(false);
+                } else {
+                    favButton.setImageResource(R.drawable.ic_favorite_white_75percent);
+                    currentImage.setFav(true);
+                }
             }
         });
         // Upon interacting with UI controls, delay any scheduled hide()
