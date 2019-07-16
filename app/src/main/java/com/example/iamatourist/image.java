@@ -9,6 +9,19 @@ public class Image {
     private Bitmap photo;
     private String[] tags;
     private Uri fileLoc;
+    private boolean fav;
+
+    public Image() {
+        this.fav = false;
+    }
+
+    public boolean isFav() {
+        return fav;
+    }
+
+    public void setFav(boolean f) {
+        fav = f;
+    }
 
     public Image(String title, String desc, Bitmap photo, String[] tags) {
         this.title = title;
@@ -23,9 +36,6 @@ public class Image {
 
     public void setFileLoc(Uri fileLoc) {
         this.fileLoc = fileLoc;
-    }
-
-    public Image() {
     }
 
     public String getTitle() {
