@@ -37,14 +37,15 @@
             tools:ignore="UselessParent">
 
             <ImageButton
-                android:id="@+id/fav_button"
+                android:id="@+id/fav_button_fullsc"
                 style="?metaButtonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:contentDescription="@string/fav_button_off"
-                android:src="@drawable/ic_favorite_border_white_50percent" />
+                android:src="@drawable/ic_favorite_border_white_50percent"
+                />
 
             <ImageButton
                 android:id="@+id/exit_fullscreen_button"
