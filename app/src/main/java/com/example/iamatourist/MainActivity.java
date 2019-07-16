@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity
                     saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
                     cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    //TODO At this point, turn cameraFile into a Uri
-                    i.putExtra(MediaStore.EXTRA_OUTPUT, cameraFile);
+                    i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
                     startActivityForResult(i, CAMERA_REQUEST_CODE);
                 } else {
                     tripDialog();
