@@ -22,6 +22,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -108,7 +109,9 @@ public class MainActivity extends AppCompatActivity
                     }} else {*/
                 if (currentTrip != null) {
                     saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
-                    cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
+                    //cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
+                    cameraFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "TestImage.jpg");
+                    //Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", cameraFile);
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
                     startActivityForResult(i, CAMERA_REQUEST_CODE);
