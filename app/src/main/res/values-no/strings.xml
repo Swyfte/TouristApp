@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">I Am A Tourist</string>
-    <string name="search_by_trip">…</string>
-    <string name="search_by_tags">…</string>
-    <string name="search_by_location">…</string>
+    <string name="search_by_trip">… etter turer</string>
+    <string name="search_by_tags">… etter tags</string>
+    <string name="search_by_location">… etter sted</string>
+    <string name="menu_search">Søk</string>
+    <string name="menu_home">Hjem</string>
+    <string name="menu_slideshow">Bildefremvising</string>
+    <string name="menu_settings">Instillinger</string>
+    <string name="menu_edit">Endre</string>
+    <string name="menu_move">Flytt</string>
+    <string name="menu_delete">Slett</string>
+    <string name="trip_details">Tur detalier</string>
+    <string name="menu_trips">Mine turer</string>
+    <string name="random">Tilfeldig</string>
+    <string name="favourites">Favoritter</string>
+    <string name="permissions">Tilatelser</string>
+    <string name="camera">Kamera</string>
+    <string name="tags">Tags…</string>
+    <string name="location">Velg sted</string>
+    <string name="gallery_access">Filtilgang</string>
+    <string name="select_date">Velg dato</string>
+    <string name="auto_fill">Auto-fyll</string>
+    <string name="select_time">Velg tid</string>
+    <string name="title">Namn…</string>
+    <string name="description">Beskrivelse…</string>
+    <string name="submit">Bekreft</string>
+    <string name="clear_gallery">Tomt galleri</string>
+    <string name="other_settings">Andre instillinger</string>
+    <string name="departure_date">Velg dato for avreise</string>
 </resources>

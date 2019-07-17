@@ -22,4 +22,6 @@
     <string name="departure_date">Date de départ</string>
     <string name="location">Emplacement</string>
     <string name="other_settings">Autres paramètres</string>
+    <string name="menu_home">Écran d\'accueil</string>
+    <string name="gallery_access">Accès au fichier</string>
 </resources>

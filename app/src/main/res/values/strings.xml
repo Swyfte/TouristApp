@@ -14,7 +14,7 @@
     <string name="menu_search">Search</string>
     <string name="menu_home">Home</string>
     <string name="menu_trips">My Trips</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_slideshow">Slide-show</string>
     <string name="menu_settings">Settings</string>
 
     <!--Button description-->
@@ -44,6 +44,7 @@
     <string name="camera">Camera</string>
     <string name="location">Pick location</string>
     <string name="gallery_access">File access</string>
+    <string name="local_settings">Personalise</string>
     <string name="add_photo_button" translatable="false">Add photo button</string>
     <string name="cancel_image_add" translatable="false">Cancel Image Add</string>
     <string name="select_date">Select Date</string>
