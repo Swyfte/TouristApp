@@ -7,10 +7,6 @@
             android:icon="@drawable/ic_info_outline"
             android:title="@string/trip_details" />
         <item
-            android:id="@+id/trip_share"
-            android:icon="@drawable/ic_share_black_24dp"
-            android:title="@string/share" />
-        <item
             android:id="@+id/trip_delete"
             android:title="@string/menu_delete" />
     </group>
