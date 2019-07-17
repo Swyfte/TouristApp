@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/window_background"
+        android:layout_width="480dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/window_background"
+        app:layout_constraintLeft_toLeftOf="@id/image_preview_1"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_1" />
+
+    <ImageView
+        android:id="@+id/image_preview_1"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="24dp"
+        app:layout_goneMarginLeft="8dp"
+        android:contentDescription="@string/image_desc"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="@id/window_background"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_1" />
+
+    <Button
+        android:id="@+id/date_btn_img"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/select_date"
+        app:layout_constraintLeft_toRightOf="@id/image_preview_1"
+        app:layout_constraintRight_toRightOf="@id/window_background"
+        app:layout_constraintTop_toBottomOf="@id/cancel_button_1" />
+
+    <Button
+        android:id="@+id/time_btn_img"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/select_time"
+        app:layout_constraintLeft_toRightOf="@id/image_preview_1"
+        app:layout_constraintRight_toRightOf="@id/window_background"
+        app:layout_constraintTop_toBottomOf="@id/date_btn_img" />
+
+    <Button
+        android:id="@+id/loc_btn_img"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/location"
+        app:layout_constraintLeft_toRightOf="@id/image_preview_1"
+        app:layout_constraintRight_toRightOf="@id/window_background"
+        app:layout_constraintTop_toBottomOf="@id/time_btn_img" />
+
+    <Button
+        android:id="@+id/auto_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/auto_fill"
+        app:layout_constraintLeft_toLeftOf="@id/image_preview_1"
+        app:layout_constraintRight_toLeftOf="@id/next_btn_img_1"
+        app:layout_constraintTop_toBottomOf="@id/image_preview_1" />
+
+    <ImageButton
+        android:id="@+id/next_btn_img_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:contentDescription="@string/next_screen_button"
+        app:layout_constraintLeft_toRightOf="@id/auto_btn"
+        app:layout_constraintRight_toRightOf="@id/image_preview_1"
+        app:layout_constraintTop_toTopOf="@id/auto_btn"
+        app:srcCompat="@drawable/ic_arrow_forward_200_24dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/circle"
+        app:layout_constraintLeft_toLeftOf="@id/cancel_button_1"
+        app:layout_constraintTop_toTopOf="@id/cancel_button_1" />
+
+    <ImageButton
+        android:id="@+id/cancel_button_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:contentDescription="@string/cancel_image_add"
+        android:elevation="2dp"
+        app:layout_constraintLeft_toRightOf="@id/window_background"
+        app:layout_constraintRight_toRightOf="@id/window_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_pink_24dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
