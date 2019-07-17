@@ -10,7 +10,7 @@
     <string name="location">Dewis lleoliad</string>
     <string name="menu_delete">Dileu</string>
     <string name="menu_edit">Golygu</string>
-    <string name="menu_gallery">Teithiau</string>
+    <string name="menu_trips">Fy nheithiau</string>
     <string name="menu_search">Chwilio</string>
     <string name="menu_settings">Lleoliadau</string>
     <string name="menu_slideshow">Sioe sleidiau</string>
@@ -24,4 +24,5 @@
     <string name="submit">Cynnig</string>
     <string name="title">Teitl…</string>
     <string name="trip_details">Manylion y daith</string>
+    <string name="other_settings">Lleoliadau eraill</string>
 </resources>

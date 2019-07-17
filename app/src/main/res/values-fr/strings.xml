@@ -4,7 +4,7 @@
     <string name="favourites">Favoris</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_edit">Réviser</string>
-    <string name="menu_gallery">Voyages</string>
+    <string name="menu_trips">Mes Voyages</string>
     <string name="menu_search">Rechercher</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_slideshow">Diaporama</string>
@@ -21,4 +21,5 @@
     <string name="search_by_tags">…</string>
     <string name="departure_date">Date de départ</string>
     <string name="location">Emplacement</string>
+    <string name="other_settings">Autres paramètres</string>
 </resources>

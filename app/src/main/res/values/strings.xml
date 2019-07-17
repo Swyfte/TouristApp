@@ -13,7 +13,7 @@
     <string name="nav_header_subtitle">Image Sorting for Travellers</string>
     <string name="menu_search">Search</string>
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Trips</string>
+    <string name="menu_trips">My Trips</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_settings">Settings</string>
 
