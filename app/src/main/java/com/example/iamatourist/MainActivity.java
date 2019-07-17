@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -16,11 +17,9 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
@@ -32,7 +31,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -44,9 +42,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -62,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private Trip currentTrip = null;
     private File saveLoc = null;
     private File cameraFile = null;
+    private String appLanguage = Locale.getDefault().getLanguage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         //Connect the toolbar to the class
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.menu_home));
 
         //Locate the floating action button
         fab = findViewById(R.id.fab);
@@ -97,6 +95,7 @@ public class MainActivity extends AppCompatActivity
                 //Permission granted?
             }
         }
+
         //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +110,6 @@ public class MainActivity extends AppCompatActivity
                     saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
                     //cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
                     cameraFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "TestImage.jpg");
-                    //Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName() + ".provider", cameraFile);
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
                     startActivityForResult(i, CAMERA_REQUEST_CODE);
@@ -165,8 +163,6 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom layout to display entry points for Time, Date and Location
-     *
-     * @return returns an Image with half the data filled in
      */
     private void firstDialog() {
         final Image image = new Image();
@@ -174,7 +170,14 @@ public class MainActivity extends AppCompatActivity
         Bitmap img = BitmapFactory.decodeFile(cameraFile.getPath());
 
         final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialog_first);
+
+        Integer rotation = this.getResources().getConfiguration().orientation;
+
+        if (rotation == Configuration.ORIENTATION_PORTRAIT) {
+            dialog.setContentView(R.layout.dialog_first);
+        } else {
+            dialog.setContentView(R.layout.dialog_first_land);
+        }
         dialog.getWindow().
 
                 setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -295,6 +298,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 currentTrip = new Trip();
                 currentTrip.setTitle(titleBox.getText().toString());
+                getSupportActionBar().setTitle(currentTrip.getTitle());
                 dialog.dismiss();
                 //TODO publish trip to global variable and make persistent
             }
@@ -335,6 +339,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        String title = "";
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment f = new Fragment();
@@ -342,24 +347,34 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             fab.show();
             f = new GalleryFragment();
+            if (currentTrip != null) {
+                title = currentTrip.getTitle();
+            } else {
+                title = getResources().getString(R.string.menu_home);
+            }
         } else if (id == R.id.nav_Search) {
             fab.show();
             f = new SearchFragment();
+            title = getResources().getString(R.string.menu_search);
         } else if (id == R.id.nav_trips) {
             fab.show();
             f = new TripsFragment();
+            title = getResources().getString(R.string.menu_trips);
         } else if (id == R.id.nav_slideshow) {
             fab.hide();
             f = new SlideshowFragment();
+            title = getResources().getString(R.string.menu_slideshow);
         } else if (id == R.id.nav_settings) {
             fab.hide();
             f = new SettingsFragment();
+            title = getResources().getString(R.string.menu_settings);
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentContainer, f);
         transaction.addToBackStack(null);
         transaction.commit();
+        getSupportActionBar().setTitle(title);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
