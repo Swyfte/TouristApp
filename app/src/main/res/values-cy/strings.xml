@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">I Am A Tourist</string>
+    <string name="camera">Camera</string>
+    <string name="clear_gallery">Oriel wag</string>
+    <string name="departure_date">Dewiswch dyddiad gadael</string>
+    <string name="description">Disgrifiad…</string>
+    <string name="favourites">Ffefrynnau</string>
+    <string name="gallery_access">Mynediad ffeil</string>
+    <string name="location">Dewis lleoliad</string>
+    <string name="menu_delete">Dileu</string>
+    <string name="menu_edit">Golygu</string>
+    <string name="menu_gallery">Teithiau</string>
+    <string name="menu_search">Chwilio</string>
+    <string name="menu_settings">Lleoliadau</string>
+    <string name="menu_slideshow">Sioe sleidiau</string>
+    <string name="permissions">Hawliau</string>
+    <string name="random">Ar hap</string>
+    <string name="search_by_location">… yn ôl lleoliad</string>
+    <string name="search_by_tags">…</string>
+    <string name="search_by_trip">… yn ôl taith</string>
+    <string name="select_date">Dewiswch dyddiad</string>
+    <string name="select_time">Dewiswch amser</string>
+    <string name="submit">Cynnig</string>
+    <string name="title">Teitl…</string>
+    <string name="trip_details">Manylion y daith</string>
+</resources>

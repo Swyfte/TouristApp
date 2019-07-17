@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">I Am A Tourist</string>
+    <string name="search_by_location">…</string>
+    <string name="search_by_tags">…</string>
+    <string name="search_by_trip">…</string>
+</resources>

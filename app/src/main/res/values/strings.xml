@@ -1,14 +1,14 @@
 <resources>
     <!--Metadata-->
     <string name="app_name">I Am A Tourist</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="options_desc">Options button</string>
-    <string name="image_desc">Image from local file</string>
-    <string name="example_trip_title">example trip title</string>
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+    <string name="options_desc" translatable="false">Options button</string>
+    <string name="image_desc" translatable="false">Image from local file</string>
+    <string name="example_trip_title" translatable="false">example trip title</string>
 
     <!--Navigation drawer-->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title">I\'m A Tourist</string>
     <string name="nav_header_subtitle">Image Sorting for Travellers</string>
     <string name="menu_search">Search</string>
@@ -18,44 +18,43 @@
     <string name="menu_settings">Settings</string>
 
     <!--Button description-->
-    <string name="fullscreen_button_desc">Fullscreen Button</string>
-    <string name="fav_button_off">favourite button unpressed</string>
-    <string name="fav_button_on">favourite button pressed</string>
+    <string name="fullscreen_button_desc" translatable="false">Fullscreen Button</string>
+    <string name="fav_button_off" translatable="false">favourite button unpressed</string>
+    <string name="fav_button_on" translatable="false">favourite button pressed</string>
 
     <!--Menu item-->
     <string name="menu_edit">Edit</string>
     <string name="menu_move">Move</string>
     <string name="menu_delete">Delete</string>
     <string name="trip_details">Trip Details</string>
-    <string name="share">Share</string>
 
     <!--Slideshow fragment-->
-    <string name="search_by_tags">Search by Tags</string>
-    <string name="search_by_location">Search by Location</string>
-    <string name="search_by_trip">Search by Trip</string>
+    <string name="search_by_tags">… by Tags</string>
+    <string name="search_by_location">… by Location</string>
+    <string name="search_by_trip">… by Trip</string>
     <string name="random">Random</string>
     <string name="favourites">Favourites</string>
 
     <!--Fullscreen Image-->
-    <string name="title_activity_fullscreen_slideshow">FullscreenSlideshowActivity</string>
-    <string name="exit_fullscreen">exit fullscreen</string>
+    <string name="title_activity_fullscreen_slideshow" translatable="false">FullscreenSlideshowActivity</string>
+    <string name="exit_fullscreen" translatable="false">exit fullscreen</string>
 
     <!--Settings menu-->
     <string name="permissions">Permissions</string>
     <string name="camera">Camera</string>
     <string name="location">Pick location</string>
-    <string name="gallery_access">Gallery access</string>
-    <string name="add_photo_button">Add photo button</string>
-    <string name="cancel_image_add">Cancel Image Add</string>
+    <string name="gallery_access">File access</string>
+    <string name="add_photo_button" translatable="false">Add photo button</string>
+    <string name="cancel_image_add" translatable="false">Cancel Image Add</string>
     <string name="select_date">Select Date</string>
     <string name="auto_fill">Auto-fill</string>
-    <string name="next_screen_button">Next Screen button</string>
+    <string name="next_screen_button" translatable="false">Next Screen button</string>
     <string name="select_time">Select Time</string>
     <string name="title">Title…</string>
     <string name="description">Description…</string>
     <string name="tags">Tags…</string>
     <string name="submit">Submit</string>
     <string name="clear_gallery">Clear Gallery</string>
-    <string name="other_settings">Other Settings</string>
+    <string name="other_settings" translatable="false">Other Settings</string>
     <string name="departure_date">Pick departure date</string>
 </resources>
