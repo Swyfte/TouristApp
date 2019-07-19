@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,10 +19,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     private Trip currentTrip = null;
     private File saveLoc = null;
     private File cameraFile = null;
-    private String appLanguage = Locale.getDefault().getLanguage();
+    private String appLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.menu_home));
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            appLanguage = Locale.getDefault().getLanguage();
+        } else {
+            appLanguage = extras.getString("appLang");
+        }
 
         //Locate the floating action button
         fab = findViewById(R.id.fab);
@@ -124,6 +132,7 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.contentContainer, (new GalleryFragment()));
             transaction.commit();
         }
+
         //Assign the drawer to the class
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         //Create the navigation header
@@ -136,6 +145,27 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         //Set the listener for the navigation drawer
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+
+    public String getAppLanguage() {
+        return appLanguage;
+    }
+
+    public void setAppLanguage(String newLanguage) {
+        if (!this.appLanguage.equals(newLanguage)) {
+            this.appLanguage = newLanguage;
+            Resources res = this.getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.setLocale(new Locale(this.appLanguage.toLowerCase()));
+            res.updateConfiguration(conf, dm);
+            Intent refresh = new Intent(this, MainActivity.class);
+            refresh.putExtra("appLang", appLanguage);
+            startActivity(refresh);
+            finish();
+        }
     }
 
     /**
@@ -385,16 +415,18 @@ public class MainActivity extends AppCompatActivity
      * This override prevents the data being lost when the activity is rebuilt,
      * for example, when the screen is rotated
      *
-     * @param outState           the current state of the activity
+     * @param savedInstanceState the current state of the activity
      */
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("savedLanguage", appLanguage);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        String language = savedInstanceState.getString("savedLanguage");
     }
 
     @Override

@@ -12,8 +12,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -31,6 +34,16 @@ public class SettingsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private String[] languages = new String[] {
+            "Select language", //0
+            "English",  //1
+            "Français", //2//French
+            "Español",  //3//Spanish
+            "Deutsch",  //4//German
+            "Norsk",    //5//Norwegian
+            "Svenska",  //6//Swedish
+            "Cymreig"   //7//Welsh
+    };
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,12 +88,68 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         final Context context = super.getContext();
         // Inflate the layout for this fragment
-        View settingView = inflater.inflate(R.layout.fragment_settings, container, false);
+        final View settingView = inflater.inflate(R.layout.fragment_settings, container, false);
         final Button clear_button = settingView.findViewById(R.id.delete_button);
         clear_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 confirmDelete();
+            }
+        });
+
+        final Spinner languageSpinner = settingView.findViewById(R.id.language_spinner);
+        ArrayAdapter<String> langAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_spinner_item, languages);
+        langAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(langAdapter);
+
+        //languageSpinner.setSelection(0);
+
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String languageChoice = languageSpinner.getItemAtPosition(i).toString();
+                switch (i) {
+                    case 1: { //English
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("en");
+                        break;
+                    }
+                    case 2: { //French
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("fr");
+                        break;
+                    }
+                    case 3: { //Spanish
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("es");
+                        break;
+                    }
+                    case 4: { //German
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("de");
+                        break;
+                    }
+                    case 5: { //Norwegian
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("no");
+                        break;
+                    }
+                    case 6: { //Swedish
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("sv");
+                        break;
+                    }
+                    case 7: { //Welsh
+                        Toast.makeText(settingView.getContext(), languageChoice, Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).setAppLanguage("cy");
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -169,4 +238,6 @@ public class SettingsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
