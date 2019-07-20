@@ -30,7 +30,7 @@
                 tools:srcCompat="@drawable/ic_photo_large" />
 
             <ImageButton
-                android:id="@+id/fav_button"
+                android:id="@+id/fav_button_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
@@ -41,7 +41,7 @@
                 tools:srcCompat="@drawable/ic_favorite_border_white_50percent" />
 
             <ImageButton
-                android:id="@+id/options_button"
+                android:id="@+id/options_button_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
