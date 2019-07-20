@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -69,14 +70,13 @@ public class GalleryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View galleryView = inflater.inflate(R.layout.fragment_gallery, container, false);
         RecyclerView gallery = galleryView.findViewById(R.id.gallery);
+        gallery.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+
         return galleryView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private View createImageView() {
+        return new View(this.getContext());
     }
 
     @Override
