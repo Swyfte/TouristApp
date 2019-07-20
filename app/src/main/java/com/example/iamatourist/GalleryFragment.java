@@ -67,8 +67,9 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_gallery, container, false);
+        View galleryView = inflater.inflate(R.layout.fragment_gallery, container, false);
+        RecyclerView gallery = galleryView.findViewById(R.id.gallery);
+        return galleryView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
