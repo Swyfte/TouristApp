@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".GalleryFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".GalleryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?attr/actionBarSize"
-            android:scrollbars="vertical">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:scrollbars="vertical" />
 
         <ImageButton
             android:id="@+id/addPhotoButton"
-            android:layout_margin="8dp"
             android:layout_width="170dp"
             android:layout_height="180dp"
-            tools:src="@drawable/ic_add_a_photo_white"
-            android:contentDescription="@string/add_photo_button"/>
+            android:layout_margin="8dp"
+            android:contentDescription="@string/add_photo_button"
+            tools:src="@drawable/ic_add_a_photo_white" />
 
-</FrameLayout>
+    </FrameLayout>
+</layout>
