@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -32,6 +35,7 @@ public class GalleryFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ArrayList<Image> images = new ArrayList<>();
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -69,8 +73,16 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View galleryView = inflater.inflate(R.layout.fragment_gallery, container, false);
+        TextView defaultText = galleryView.findViewById(R.id.default_text);
         RecyclerView gallery = galleryView.findViewById(R.id.gallery);
         gallery.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        if (images.isEmpty()) {
+            defaultText.setVisibility(View.VISIBLE);
+            gallery.setVisibility(View.GONE);
+        } else {
+            defaultText.setVisibility(View.GONE);
+            gallery.setVisibility(View.VISIBLE);
+        }
 
         return galleryView;
     }
