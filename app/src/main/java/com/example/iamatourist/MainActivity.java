@@ -340,6 +340,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST_CODE) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
             if (resultCode == RESULT_OK) {
                 firstDialog();
             }
