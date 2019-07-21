@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
-    Context context;
+    private Context context;
 
     public ImageAdapter(List<Image> images) {
         this.images = images;
@@ -47,8 +47,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View imageView = inflater.inflate(R.layout.image_layout, parent, false);
-        ViewHolder viewHolder = new ViewHolder(imageView);
-        return viewHolder;
+        return new ViewHolder(imageView);
     }
 
     @Override
