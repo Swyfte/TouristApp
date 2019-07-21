@@ -49,6 +49,14 @@ public class Trip {
         return gallery;
     }
 
+    public Image getImageAtPos(Integer pos) {
+        return gallery.get(pos);
+    }
+
+    public Integer getGallerySize() {
+        return gallery.size();
+    }
+
     public void setGallery(ArrayList<Image> gallery) {
         this.gallery = gallery;
     }
