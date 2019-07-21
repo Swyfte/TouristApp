@@ -66,7 +66,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         }
 
         ImageButton menu_button = holder.menu_button;
-        holder.menu_button.setOnClickListener(new View.OnClickListener() {
+        menu_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu optionMenu = new PopupMenu(context, holder.menu_button);
