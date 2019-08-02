@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -43,7 +45,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -53,13 +60,15 @@ public class MainActivity extends AppCompatActivity
         TripsFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener {
 
-    private FloatingActionButton fab;
     private final int CAMERA_REQUEST_CODE = 100;
+
+    private FloatingActionButton fab;
     private boolean hasCamera = true;
     private Trip currentTrip = null;
-    private File saveLoc = null;
+    private String saveLoc;
     private File cameraFile = null;
     private String appLanguage;
+    private Bitmap cameraPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         //Connect the toolbar to the class
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.menu_home));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.menu_home));
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -84,25 +93,7 @@ public class MainActivity extends AppCompatActivity
          * This is to prevent a case of the program attempting to launch a camera that isn't there.
          * This should help prevent crashes.
          */
-        PackageManager packageManager = this.getPackageManager();
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            fab.setEnabled(false);
-            fab.hide();
-            hasCamera = false;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            }
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            }
-        } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                //Permission granted?
-            }
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                //Permission granted?
-            }
-        }
+        doPermissions();
 
         //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +106,10 @@ public class MainActivity extends AppCompatActivity
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
                     }} else {*/
                 if (currentTrip != null) {
-                    saveLoc = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/touristApp/" + currentTrip.getTitle());
-                    //cameraFile = new File(saveLoc.getPath() + "TestImage.jpg");
-                    cameraFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "TestImage.jpg");
-                    Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-                    startActivityForResult(i, CAMERA_REQUEST_CODE);
+                    try {
+                        openCameraIntent();
+                    }
+                    catch (IOException e) {}
                 } else {
                     tripDialog();
                 }
@@ -147,7 +136,55 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void doPermissions() {
+        PackageManager packageManager = this.getPackageManager();
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            fab.setEnabled(false);
+            fab.hide();
+            hasCamera = false;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Permission granted?
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Permission granted?
+            }
+        }
+    }
 
+
+    private void openCameraIntent() throws IOException {
+        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (i.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = makeImageFile();
+            } catch (IOException ex) {
+                return;
+            }
+            if (photoFile != null) {
+                Uri photoUri = FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID + ".provider", makeImageFile());
+                i.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(i, CAMERA_REQUEST_CODE);
+            }
+        }
+    }
+
+    private File makeImageFile() throws IOException {
+        String fileName = "TempImage";
+        File StorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        File image = File.createTempFile(
+                fileName, ".jpg", StorageDir
+        );
+        saveLoc = "file:" + image.getAbsolutePath();
+        return image;
+    }
 
     public String getAppLanguage() {
         return appLanguage;
@@ -339,11 +376,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            if (resultCode == RESULT_OK) {
-                firstDialog();
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK)  {
+            Uri imageUri = Uri.parse(saveLoc);
+            File file = new File(imageUri.getPath());
+            try {
+                InputStream ims = new FileInputStream(file);
+                cameraPhoto = BitmapFactory.decodeStream(ims);
+            } catch (FileNotFoundException e) {
+                return;
             }
+
+            MediaScannerConnection.scanFile(MainActivity.this, new String[]{imageUri.getPath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(String s, Uri uri) {
+
+                }
+            });
         }
     }
 
