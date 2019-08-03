@@ -157,8 +157,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
-
+    
     private void openCameraIntent() throws IOException {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (i.resolveActivity(getPackageManager()) != null) {
