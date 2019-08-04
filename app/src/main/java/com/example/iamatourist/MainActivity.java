@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -171,6 +172,8 @@ public class MainActivity extends AppCompatActivity
                 Uri photoUri = FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID + ".provider", makeImageFile());
                 i.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(i, CAMERA_REQUEST_CODE);
+            } else {
+                Toast.makeText(this,"Photofile = null", Toast.LENGTH_SHORT).show();
             }
         }
     }
