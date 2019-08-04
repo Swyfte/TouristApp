@@ -75,7 +75,7 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ImageLayoutBinding binding = DataBindingUtil.setContentView(this.getActivity(), R.layout.image_layout);
+        //ImageLayoutBinding binding = DataBindingUtil.setContentView(this.getActivity(), R.layout.image_layout);
 
         View galleryView = inflater.inflate(R.layout.fragment_gallery, container, false);
         TextView defaultText = galleryView.findViewById(R.id.default_text);
