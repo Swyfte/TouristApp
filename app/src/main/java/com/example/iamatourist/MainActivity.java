@@ -110,7 +110,9 @@ public class MainActivity extends AppCompatActivity
                     try {
                         openCameraIntent();
                     }
-                    catch (IOException e) {}
+                    catch (IOException e) {
+                        Toast.makeText(MainActivity.this,"IOException caught", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     tripDialog();
                 }
