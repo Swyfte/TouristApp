@@ -15,10 +15,11 @@ public class Trip {
         this.gallery = new ArrayList<>();
     }
 
-    public Trip(String title, Date date) {
+    public Trip(String title, Date date, Location loc) {
         this.gallery = new ArrayList<>();
         this.title = title;
         this.date = date;
+        this.loc = loc;
     }
 
     public String getTitle() {
@@ -41,10 +42,6 @@ public class Trip {
         gallery.add(img);
     }
 
-    public Image getTopImage(Integer index){
-        return gallery.get(index);
-    }
-
     public ArrayList<Image> getGallery() {
         return gallery;
     }
@@ -53,11 +50,23 @@ public class Trip {
         return gallery.get(pos);
     }
 
+    public void removeImage(Image img) {
+        gallery.remove(img);
+    }
+
     public Integer getGallerySize() {
         return gallery.size();
     }
 
     public void setGallery(ArrayList<Image> gallery) {
         this.gallery = gallery;
+    }
+
+    public Location getLoc() {
+        return loc;
+    }
+
+    public void setLoc(Location loc) {
+        this.loc = loc;
     }
 }
