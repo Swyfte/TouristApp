@@ -3,11 +3,13 @@ package com.example.iamatourist;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import java.util.ArrayList;
+
 public class Image {
     private String title;
     private String desc;
     private Bitmap photo;
-    private String[] tags;
+    private ArrayList<String> tags = new ArrayList<>();
     private Uri fileLoc;
     private boolean fav;
 
@@ -23,7 +25,7 @@ public class Image {
         fav = f;
     }
 
-    public Image(String title, String desc, Bitmap photo, String[] tags) {
+    public Image(String title, String desc, Bitmap photo, ArrayList<String> tags) {
         this.title = title;
         this.desc = desc;
         this.photo = photo;
@@ -62,11 +64,29 @@ public class Image {
         this.photo = photo;
     }
 
-    public String[] getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        if (this.hasTag(tag)) {
+            tags.remove(tag);
+        }
+    }
+
+    public String getTagAt(Integer pos) {
+        return tags.get(pos);
+    }
+
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
     }
 }
