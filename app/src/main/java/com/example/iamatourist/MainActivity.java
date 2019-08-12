@@ -1,6 +1,8 @@
 package com.example.iamatourist;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
@@ -37,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity
         SearchFragment.OnFragmentInteractionListener {
 
     private final int CAMERA_REQUEST_CODE = 100;
+    private final int READ_REQUEST_CODE = 101;
+    private final int WRITE_REQUEST_CODE = 102;
 
     private FloatingActionButton fab;
     private boolean hasCamera = true;
@@ -147,9 +153,24 @@ public class MainActivity extends AppCompatActivity
             hasCamera = false;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    //Show explanation
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},READ_REQUEST_CODE);
+                }
             }
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Snackbar.make(this.findViewById(R.id.thisLayout), "Storage permissions required for this app to work", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_REQUEST_CODE);
+                        }
+                    });
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
+                }
             }
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -248,6 +269,13 @@ public class MainActivity extends AppCompatActivity
                 }
                 return;
             }
+            case READ_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED) {
+                    //Do... The task?
+                } else {
+                    //Disable functionality, display "This app will not work" warning
+                }
+            }
         }
     }
 
@@ -258,6 +286,7 @@ public class MainActivity extends AppCompatActivity
         final Image image = new Image();
         final Context context = this;
         Bitmap img = cameraPhoto;
+
 
         final Dialog dialog = new Dialog(context);
 
