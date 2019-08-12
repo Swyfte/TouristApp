@@ -160,7 +160,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-    
+
+    /**
+     * This method, and makeImageFile() were sourced from:
+     * https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
+     *
+     * The purpose of this method is to handle the app switching to the camera, and facilitating the return.
+     * @throws IOException if the file cannot be made
+     */
     private void openCameraIntent() throws IOException {
         Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (i.resolveActivity(getPackageManager()) != null) {
@@ -182,9 +189,19 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This method is also sourced from:
+     * https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
+     *
+     * Its purpose is to create a temporary file where the image is saved.
+     * The child of the base DCIM directory is name of the app, followed by the trip name.
+     * @return Returns the image save location as a File
+     * @throws IOException
+     */
     private File makeImageFile() throws IOException {
         String fileName = "TempImage";
-        File StorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        File StorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), ("/TouristApp/" + currentTrip.getTitle()));
+        StorageDir.mkdirs();
         File image = File.createTempFile(
                 fileName, ".jpg", StorageDir
         );
