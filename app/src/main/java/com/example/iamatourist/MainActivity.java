@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity
             try {
                 photoFile = makeImageFile();
             } catch (IOException ex) {
+                Toast.makeText(this, "File make failed", Toast.LENGTH_SHORT).show();
+                System.out.println(ex);
                 return;
             }
             if (photoFile != null) {
@@ -238,7 +240,7 @@ public class MainActivity extends AppCompatActivity
     private void firstDialog() {
         final Image image = new Image();
         final Context context = this;
-        Bitmap img = BitmapFactory.decodeFile(cameraFile.getPath());
+        Bitmap img = cameraPhoto;
 
         final Dialog dialog = new Dialog(context);
 
@@ -278,10 +280,6 @@ public class MainActivity extends AppCompatActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File img = new File(cameraFile.getPath());
-                if (img.exists()) {
-                    img.delete();
-                }
                 dialog.dismiss();
             }
         });
@@ -302,7 +300,7 @@ public class MainActivity extends AppCompatActivity
      * @param img The image with the details from the previous screen
      * @return Returns the image as an item
      */
-    private Image secondDialog(final Image img) {
+    private void secondDialog(final Image img) {
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_second);
@@ -331,7 +329,7 @@ public class MainActivity extends AppCompatActivity
 
         dialog.show();
 
-        return img;
+        this.currentTrip.addImage(img);
     }
 
     private void tripDialog() {
@@ -390,13 +388,16 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
 
-            MediaScannerConnection.scanFile(MainActivity.this, new String[]{imageUri.getPath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            MediaScannerConnection.scanFile(MainActivity.this,
+                    new String[]{imageUri.getPath()}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
                 @Override
                 public void onScanCompleted(String s, Uri uri) {
 
                 }
             });
         }
+        firstDialog();
     }
 
     /**
