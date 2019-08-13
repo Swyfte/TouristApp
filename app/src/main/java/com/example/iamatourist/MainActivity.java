@@ -431,10 +431,10 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
-        final Button time = dialog.findViewById(R.id.time_btn_img);
+        final Button timeBtn = dialog.findViewById(R.id.time_btn_img);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            time.setOnClickListener(new View.OnClickListener() {
+            timeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     TimePickerDialog tpd = new TimePickerDialog(MainActivity.this,
@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity
                             new TimePickerDialog.OnTimeSetListener() {
                                 @Override
                                 public void onTimeSet(TimePicker timePicker, int h, int m) {
-                                    time.setText(String.format(Locale.getDefault(), "%d:%d", h, m));
+                                    timeBtn.setText(String.format(Locale.getDefault(), "%d:%d", h, m));
                                 }
                             }, 0, 0, true);
                     tpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -471,10 +471,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Date t = new Date();
-                if (!time.getText().equals(getResources().getString(R.string.select_time))) {
+                if (!timeBtn.getText().equals(getResources().getString(R.string.select_time))) {
                     DateFormat df = new SimpleDateFormat("hh:mm", Locale.getDefault());
                     try {
-                        t = df.parse(time.getText().toString());
+                        t = df.parse(timeBtn.getText().toString());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
