@@ -9,13 +9,13 @@ public class Trip {
     private ArrayList<Image> gallery;
     private String title;
     private Date date;
-    private Location loc;
+    private String loc;
 
     public Trip() {
         this.gallery = new ArrayList<>();
     }
 
-    public Trip(String title, Date date, Location loc) {
+    public Trip(String title, Date date, String loc) {
         this.gallery = new ArrayList<>();
         this.title = title;
         this.date = date;
@@ -62,11 +62,11 @@ public class Trip {
         this.gallery = gallery;
     }
 
-    public Location getLoc() {
+    public String getLoc() {
         return loc;
     }
 
-    public void setLoc(Location loc) {
+    public void setLoc(String loc) {
         this.loc = loc;
     }
 }

@@ -15,7 +15,7 @@ public class Image {
     private boolean fav;
     private Date date;
     private Date time;
-    private Location location;
+    private String location;
 
 
     public Image() {
@@ -30,7 +30,7 @@ public class Image {
         this.tags = tags;
     }
 
-    public Image(Bitmap photo, Date date, Date time, Location location) {
+    public Image(Bitmap photo, Date date, Date time, String location) {
         this.fav = false;
         this.photo = photo;
         this.date = date;
@@ -39,11 +39,11 @@ public class Image {
     }
 
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

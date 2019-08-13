@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -63,6 +65,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -473,16 +476,11 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
-        Button loc = dialog.findViewById(R.id.loc_btn_img);
-        loc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doPermissions(LOCATION_REQUEST_CODE);
-            }
-        });
+        final EditText loc = dialog.findViewById(R.id.loc_btn_img);
 
         ////Funcionality does not work in API < 21////
         Button auto = dialog.findViewById(R.id.auto_btn);
+        auto.setVisibility(View.INVISIBLE);
 
         ImageButton next = dialog.findViewById(R.id.next_btn_img_1);
         ImageButton close = dialog.findViewById(R.id.cancel_button_1);
@@ -516,14 +514,40 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                Location l = new Location("A");
+                String l = loc.getText().toString();
                 currentImage = new Image(photo, d, t, l);
                 dialog.dismiss();
                 secondDialog();
             }
         });
-
         dialog.show();
+    }
+
+    /**
+     * Sourced from https://stackoverflow.com/questions/3574644/how-can-i-find-the-latitude-and-longitude-from-address/27834110#27834110
+     * Modified to return the location, instead of the lat and long
+     *
+     * NOTE: No longer being used; Location changed to String.
+     * Code remaining in case of subsequent changes.
+     *
+     * @param context the app's context
+     * @param s the string name of the location
+     * @return the top result of the locations list.
+     */
+    private Address getLocFromString(Context context, String s) {
+        Geocoder g = new Geocoder(context);
+        List<Address> addresses;
+        Address location = null;
+        try {
+            addresses = g.getFromLocationName(s, 5);
+            if (addresses == null) {
+                return null;
+            }
+            location = addresses.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return location;
     }
 
     /**
