@@ -1,9 +1,9 @@
 package com.example.iamatourist;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -33,10 +35,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -54,6 +58,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -68,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     private final int CAMERA_REQUEST_CODE = 100;
     private final int READ_REQUEST_CODE = 101;
     private final int WRITE_REQUEST_CODE = 102;
+    private final int LOCATION_REQUEST_CODE = 103;
 
     private FloatingActionButton fab;
     private boolean hasCamera = true;
@@ -76,6 +85,12 @@ public class MainActivity extends AppCompatActivity
     private File cameraFile = null;
     private String appLanguage;
     private Bitmap cameraPhoto;
+    private Image currentImage = null;
+
+    boolean canCamera = false;
+    boolean canWFiles = false;
+    boolean canRFiles = false;
+    boolean canLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,24 +115,23 @@ public class MainActivity extends AppCompatActivity
          * This is to prevent a case of the program attempting to launch a camera that isn't there.
          * This should help prevent crashes.
          */
-        doPermissions();
+        PackageManager packageManager = this.getPackageManager();
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            fab.setEnabled(false);
+            fab.hide();
+            hasCamera = false;
+        }
 
         //Make the camera open on clicking the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.CAMERA)) {
-
-                    } else {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
-                    }} else {*/
                 if (currentTrip != null) {
                     try {
+                        doPermissions(CAMERA_REQUEST_CODE);
                         openCameraIntent();
-                    }
-                    catch (IOException e) {
-                        Toast.makeText(MainActivity.this,"IOException caught", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        Toast.makeText(MainActivity.this, "IOException caught", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     tripDialog();
@@ -145,48 +159,108 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void doPermissions() {
-        PackageManager packageManager = this.getPackageManager();
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            fab.setEnabled(false);
-            fab.hide();
-            hasCamera = false;
-        }
+    private void doPermissions(Integer reqCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    //Show explanation
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},READ_REQUEST_CODE);
-                }
-            }
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    Snackbar.make(this.findViewById(R.id.thisLayout), "Storage permissions required for this app to work", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_REQUEST_CODE);
+            switch (reqCode) {
+                case CAMERA_REQUEST_CODE: {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                                Manifest.permission.CAMERA)) {
+                            //What do?
+                        } else {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},
+                                    CAMERA_REQUEST_CODE);
                         }
-                    });
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
+                    } else {
+                        //?
+                    }
+                }
+                case READ_REQUEST_CODE: {
+                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            Snackbar.make(this.findViewById(R.id.thisLayout),
+                                    "Storage permissions required for this app to work",
+                                    Snackbar.LENGTH_INDEFINITE).setAction("OK",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            ActivityCompat.requestPermissions(MainActivity.this,
+                                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                    WRITE_REQUEST_CODE);
+                                        }
+                                    });
+                        } else {
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    READ_REQUEST_CODE);
+                        }
+                    }
+                }
+                case WRITE_REQUEST_CODE: {
+                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            Snackbar.make(this.findViewById(R.id.thisLayout),
+                                    "Storage permissions required for this app to work",
+                                    Snackbar.LENGTH_INDEFINITE).setAction("OK",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            ActivityCompat.requestPermissions(MainActivity.this,
+                                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                    WRITE_REQUEST_CODE);
+                                        }
+                                    });
+                        } else {
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    WRITE_REQUEST_CODE);
+                        }
+                    }
+                }
+                case LOCATION_REQUEST_CODE: {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                            //Location is not urgent
+                        } else {
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    LOCATION_REQUEST_CODE);
+                        }
+                    }
                 }
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 //Permission granted?
             }
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //Permission granted?
+            }
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 //Permission granted?
             }
         }
+
     }
 
     /**
      * This method, and makeImageFile() were sourced from:
      * https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
-     *
+     * <p>
      * The purpose of this method is to handle the app switching to the camera, and facilitating the return.
+     *
      * @throws IOException if the file cannot be made
      */
     private void openCameraIntent() throws IOException {
@@ -194,6 +268,7 @@ public class MainActivity extends AppCompatActivity
         if (i.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
+                doPermissions(WRITE_REQUEST_CODE);
                 photoFile = makeImageFile();
             } catch (IOException ex) {
                 Toast.makeText(this, "File make failed", Toast.LENGTH_SHORT).show();
@@ -205,7 +280,7 @@ public class MainActivity extends AppCompatActivity
                 i.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(i, CAMERA_REQUEST_CODE);
             } else {
-                Toast.makeText(this,"Photofile = null", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Photofile = null", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -213,9 +288,10 @@ public class MainActivity extends AppCompatActivity
     /**
      * This method is also sourced from:
      * https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
-     *
+     * <p>
      * Its purpose is to create a temporary file where the image is saved.
      * The child of the base DCIM directory is name of the app, followed by the trip name.
+     *
      * @return Returns the image save location as a File
      * @throws IOException
      */
@@ -270,10 +346,25 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             case READ_REQUEST_CODE: {
-                if (grantResults.length > 0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED) {
-                    //Do... The task?
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    canRFiles = true;
                 } else {
-                    //Disable functionality, display "This app will not work" warning
+                    canRFiles = false;
+                }
+            }
+
+            case WRITE_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    canWFiles = true;
+                } else {
+                    canWFiles = false;
+                }
+            }
+            case LOCATION_REQUEST_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    canLocation = true;
+                } else {
+                    canLocation = false;
                 }
             }
         }
@@ -283,42 +374,89 @@ public class MainActivity extends AppCompatActivity
      * Uses a custom layout to display entry points for Time, Date and Location
      */
     private void firstDialog() {
-        final Image image = new Image();
         final Context context = this;
-        Bitmap img = cameraPhoto;
-
+        final Bitmap photo = cameraPhoto;
 
         final Dialog dialog = new Dialog(context);
 
-        Integer rotation = this.getResources().getConfiguration().orientation;
+        int rotation = this.getResources().getConfiguration().orientation;
 
         if (rotation == Configuration.ORIENTATION_PORTRAIT) {
             dialog.setContentView(R.layout.dialog_first);
         } else {
             dialog.setContentView(R.layout.dialog_first_land);
         }
-        dialog.getWindow().
-
-                setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         final ImageView imagePrev = dialog.findViewById(R.id.image_preview_1);
-        imagePrev.setImageBitmap(img);
+        imagePrev.setImageBitmap(photo);
 
-        Button date = dialog.findViewById(R.id.date_btn_img);
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO Open date picker dialog
-            }
-        });
-        Button time = dialog.findViewById(R.id.time_btn_img);
-        time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO Open time picker dialog
-            }
-        });
+        final Button date = dialog.findViewById(R.id.date_btn_img);
+
+        /*
+         * Due to the different constructors in different API levels, I have two different ways
+         * of initialising this date picker.
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            date.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    DatePickerDialog dpd = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog);
+                    dpd.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                            date.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
+                        }
+                    });
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dpd.show();
+                }
+            });
+        } else {
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatePickerDialog dpd = new DatePickerDialog(MainActivity.this,
+                            android.R.style.Theme_Holo_Light_Dialog,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                    date.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
+                                }
+                            }, 2001, 0, 0);
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dpd.show();
+                }
+            });
+        }
+
+        final Button time = dialog.findViewById(R.id.time_btn_img);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TimePickerDialog tpd = new TimePickerDialog(MainActivity.this,
+                            android.R.style.Theme_Holo_Light_Dialog,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker timePicker, int h, int m) {
+                                    time.setText(String.format(Locale.getDefault(), "%d:%d", h, m));
+                                }
+                            }, 0, 0, true);
+                    tpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    tpd.show();
+                }
+            });
+        }
         Button loc = dialog.findViewById(R.id.loc_btn_img);
+        loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doPermissions(LOCATION_REQUEST_CODE);
+            }
+        });
         Button auto = dialog.findViewById(R.id.auto_btn);
         ImageButton next = dialog.findViewById(R.id.next_btn_img_1);
         ImageButton close = dialog.findViewById(R.id.cancel_button_1);
@@ -332,8 +470,29 @@ public class MainActivity extends AppCompatActivity
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Date t = new Date();
+                if (!time.getText().equals(getResources().getString(R.string.select_time))) {
+                    DateFormat df = new SimpleDateFormat("hh:mm", Locale.getDefault());
+                    try {
+                        t = df.parse(time.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Date d = new Date();
+                if (!date.getText().equals(getResources().getString(R.string.select_date))) {
+                    DateFormat df = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
+                    try {
+                        d = df.parse(date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Location l = new Location("A");
+                currentImage = new Image(photo, d, t, l);
                 dialog.dismiss();
-                secondDialog(image);
+                secondDialog();
             }
         });
 
@@ -342,18 +501,15 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Uses a custom layout to display entry points for Title, desc and Tags
-     *
-     * @param img The image with the details from the previous screen
-     * @return Returns the image as an item
      */
-    private void secondDialog(final Image img) {
+    private void secondDialog() {
         final Context context = this;
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_second);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        final ImageView image = dialog.findViewById(R.id.image_preview_1);
-        image.setImageBitmap(img.getPhoto());
+        ImageView image = dialog.findViewById(R.id.image_preview_2);
+        image.setImageBitmap(currentImage.getPhoto());
 
         TextView title = dialog.findViewById(R.id.title_edit_img);
         TextView desc = dialog.findViewById(R.id.desc_edit_img);
@@ -364,18 +520,13 @@ public class MainActivity extends AppCompatActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri loc = img.getFileLoc();
-                File img = new File(loc.getPath());
-                if (img.exists()) {
-                    img.delete();
-                }
                 dialog.dismiss();
             }
         });
 
         dialog.show();
 
-        this.currentTrip.addImage(img);
+        this.currentTrip.addImage(currentImage);
     }
 
     private void tripDialog() {
@@ -386,17 +537,45 @@ public class MainActivity extends AppCompatActivity
 
         final EditText titleBox = dialog.findViewById(R.id.edit_title_trip);
         final Button dateButton = dialog.findViewById(R.id.date_button_trip);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO display date picker dialog
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            dateButton.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    DatePickerDialog dpd = new DatePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog);
+                    dpd.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                            dateButton.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
+                        }
+                    });
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dpd.show();
+                }
+            });
+        } else {
+            dateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DatePickerDialog dpd = new DatePickerDialog(MainActivity.this,
+                            android.R.style.Theme_Holo_Light_Dialog,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                    dateButton.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
+                                }
+                            }, 2001, 0, 0);
+                    dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dpd.show();
+                }
+            });
+        }
         final Button locButton = dialog.findViewById(R.id.loc_button_trip);
         locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO display location options
+                doPermissions(LOCATION_REQUEST_CODE);
+                //TODO Finish location checker
             }
         });
         ImageButton cancelButton = dialog.findViewById(R.id.cancel_button_trip);
@@ -415,7 +594,6 @@ public class MainActivity extends AppCompatActivity
                 currentTrip.setTitle(titleBox.getText().toString());
                 getSupportActionBar().setTitle(currentTrip.getTitle());
                 dialog.dismiss();
-                //TODO publish trip to global variable and make persistent
             }
         });
 
@@ -424,7 +602,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK)  {
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            doPermissions(READ_REQUEST_CODE);
             Uri imageUri = Uri.parse(saveLoc);
             File file = new File(imageUri.getPath());
             try {
@@ -437,13 +616,12 @@ public class MainActivity extends AppCompatActivity
             MediaScannerConnection.scanFile(MainActivity.this,
                     new String[]{imageUri.getPath()}, null,
                     new MediaScannerConnection.OnScanCompletedListener() {
-                @Override
-                public void onScanCompleted(String s, Uri uri) {
-
-                }
-            });
+                        @Override
+                        public void onScanCompleted(String s, Uri uri) {
+                        }
+                    });
+            firstDialog();
         }
-        firstDialog();
     }
 
     /**
