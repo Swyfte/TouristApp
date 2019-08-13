@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.icu.util.Calendar;
 import android.location.Location;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 if (currentTrip != null) {
                     try {
                         doPermissions(CAMERA_REQUEST_CODE);
-                        openCameraIntent();
+                        if (canCamera) openCameraIntent();
                     } catch (IOException e) {
                         Toast.makeText(MainActivity.this, "IOException caught", Toast.LENGTH_SHORT).show();
                     }
@@ -269,7 +270,7 @@ public class MainActivity extends AppCompatActivity
             File photoFile = null;
             try {
                 doPermissions(WRITE_REQUEST_CODE);
-                photoFile = makeImageFile();
+                if (canWFiles) photoFile = makeImageFile();
             } catch (IOException ex) {
                 Toast.makeText(this, "File make failed", Toast.LENGTH_SHORT).show();
                 System.out.println(ex);
@@ -339,9 +340,11 @@ public class MainActivity extends AppCompatActivity
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (hasCamera) {
                         fab.setEnabled(true);
+                        canCamera = true;
                     }
                 } else {
                     fab.setEnabled(false);
+                    canCamera = false;
                 }
                 return;
             }
@@ -435,6 +438,26 @@ public class MainActivity extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timeBtn.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR);
+                    int min = c.get(Calendar.MINUTE);
+                    TimePickerDialog tpd = new TimePickerDialog(MainActivity.this,
+                            android.R.style.Theme_Holo_Light_Dialog,
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker timePicker, int h, int m) {
+                                    timeBtn.setText(String.format(Locale.getDefault(), "%d:%d", h, m));
+                                }
+                            }, hour, min, true);
+                    tpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    tpd.show();
+                }
+            });
+        } else {
+            timeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     TimePickerDialog tpd = new TimePickerDialog(MainActivity.this,
@@ -457,7 +480,10 @@ public class MainActivity extends AppCompatActivity
                 doPermissions(LOCATION_REQUEST_CODE);
             }
         });
+
+        ////Funcionality does not work in API < 21////
         Button auto = dialog.findViewById(R.id.auto_btn);
+
         ImageButton next = dialog.findViewById(R.id.next_btn_img_1);
         ImageButton close = dialog.findViewById(R.id.cancel_button_1);
 
@@ -467,6 +493,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.dismiss();
             }
         });
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -604,22 +631,24 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             doPermissions(READ_REQUEST_CODE);
-            Uri imageUri = Uri.parse(saveLoc);
-            File file = new File(imageUri.getPath());
-            try {
-                InputStream ims = new FileInputStream(file);
-                cameraPhoto = BitmapFactory.decodeStream(ims);
-            } catch (FileNotFoundException e) {
-                return;
-            }
+            if (canRFiles) {
+                Uri imageUri = Uri.parse(saveLoc);
+                File file = new File(imageUri.getPath());
+                try {
+                    InputStream ims = new FileInputStream(file);
+                    cameraPhoto = BitmapFactory.decodeStream(ims);
+                } catch (FileNotFoundException e) {
+                    return;
+                }
 
-            MediaScannerConnection.scanFile(MainActivity.this,
-                    new String[]{imageUri.getPath()}, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        @Override
-                        public void onScanCompleted(String s, Uri uri) {
-                        }
-                    });
+                MediaScannerConnection.scanFile(MainActivity.this,
+                        new String[]{imageUri.getPath()}, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            @Override
+                            public void onScanCompleted(String s, Uri uri) {
+                            }
+                        });
+            }
             firstDialog();
         }
     }
