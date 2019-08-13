@@ -1,20 +1,66 @@
 package com.example.iamatourist;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.location.Location;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Image {
     private String title;
     private String desc;
     private Bitmap photo;
     private ArrayList<String> tags = new ArrayList<>();
-    private Uri fileLoc;
     private boolean fav;
+    private Date date;
+    private Date time;
+    private Location location;
+
 
     public Image() {
         this.fav = false;
+    }
+
+    public Image(String title, String desc, Bitmap photo, ArrayList<String> tags) {
+        this.fav = false;
+        this.title = title;
+        this.desc = desc;
+        this.photo = photo;
+        this.tags = tags;
+    }
+
+    public Image(Bitmap photo, Date date, Date time, Location location) {
+        this.fav = false;
+        this.photo = photo;
+        this.date = date;
+        this.time = time;
+        this.location = location;
+    }
+
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public boolean isFav() {
@@ -23,21 +69,6 @@ public class Image {
 
     public void setFav(boolean f) {
         fav = f;
-    }
-
-    public Image(String title, String desc, Bitmap photo, ArrayList<String> tags) {
-        this.title = title;
-        this.desc = desc;
-        this.photo = photo;
-        this.tags = tags;
-    }
-
-    public Uri getFileLoc() {
-        return fileLoc;
-    }
-
-    public void setFileLoc(Uri fileLoc) {
-        this.fileLoc = fileLoc;
     }
 
     public String getTitle() {
