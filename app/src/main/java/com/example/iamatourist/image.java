@@ -1,9 +1,6 @@
 package com.example.iamatourist;
 
 import android.graphics.Bitmap;
-import android.location.Location;
-
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
