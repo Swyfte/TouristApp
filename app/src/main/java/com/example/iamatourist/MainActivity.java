@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity
                                 public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                     date.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
                                 }
-                            }, 2001, 0, 0);
+                            }, 2020, 1, 1);
                     dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dpd.show();
                 }
@@ -653,7 +653,7 @@ public class MainActivity extends AppCompatActivity
                                 public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                     dateButton.setText(String.format(Locale.getDefault(), "%d-%d-%d", d, m + 1, y));
                                 }
-                            }, 2001, 0, 0);
+                            }, 2020, 1, 1);
                     dpd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dpd.show();
                 }
