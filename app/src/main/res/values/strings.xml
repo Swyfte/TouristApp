@@ -42,7 +42,7 @@
     <!--Settings menu-->
     <string name="permissions">Permissions</string>
     <string name="camera">Camera</string>
-    <string name="location">Pick location</string>
+    <string name="location">Enter location</string>
     <string name="gallery_access">File access</string>
     <string name="local_settings">Personalise</string>
     <string name="add_photo_button" translatable="false">Add photo button</string>

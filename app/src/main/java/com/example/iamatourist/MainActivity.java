@@ -16,7 +16,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity
     private boolean hasCamera = true;
     private Trip currentTrip = null;
     private String saveLoc;
-    private File cameraFile = null;
     private String appLanguage;
     private Bitmap cameraPhoto;
     private Image currentImage = null;
@@ -659,14 +657,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
-        final Button locButton = dialog.findViewById(R.id.loc_button_trip);
-        locButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doPermissions(LOCATION_REQUEST_CODE);
-                //TODO Finish location checker
-            }
-        });
+        final EditText locEdit = dialog.findViewById(R.id.loc_edit_trip);
         ImageButton cancelButton = dialog.findViewById(R.id.cancel_button_trip);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -679,8 +670,18 @@ public class MainActivity extends AppCompatActivity
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentTrip = new Trip();
-                currentTrip.setTitle(titleBox.getText().toString());
+                Date d = new Date();
+                if (!dateButton.getText().equals(getResources().getString(R.string.select_date))) {
+                    DateFormat df = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
+                    try {
+                        d = df.parse(dateButton.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String t = titleBox.getText().toString();
+                String l = locEdit.getText().toString();
+                currentTrip = new Trip(t,d,l);
                 getSupportActionBar().setTitle(currentTrip.getTitle());
                 dialog.dismiss();
             }

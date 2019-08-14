@@ -45,11 +45,11 @@
         app:layout_constraintRight_toRightOf="@id/window_background"
         app:layout_constraintTop_toBottomOf="@id/date_btn_img" />
 
-    <Button
-        android:id="@+id/loc_btn_img"
+    <EditText
+        android:id="@+id/loc_edit_trip"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/location"
         app:layout_constraintLeft_toRightOf="@id/image_preview_1"
         app:layout_constraintRight_toRightOf="@id/window_background"

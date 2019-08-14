@@ -2,42 +2,46 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/window_background"
         android:layout_width="250dp"
-        android:layout_height="220dp"
+        android:layout_height="250dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/window_background"
-        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/cancel_button_trip" />
 
     <EditText
         android:id="@+id/edit_title_trip"
-        android:layout_width="250dp"
+        android:layout_width="240dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:hint="@string/title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="@id/window_background"
+        app:layout_constraintLeft_toLeftOf="@id/window_background"
+        app:layout_constraintTop_toTopOf="@id/window_background" />
 
     <Button
         android:id="@+id/date_button_trip"
-        android:layout_width="250dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/departure_date"
-        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        app:layout_constraintLeft_toLeftOf="@id/window_background"
+        app:layout_constraintRight_toRightOf="@id/window_background"
         app:layout_constraintTop_toBottomOf="@id/edit_title_trip" />
 
-    <Button
-        android:id="@+id/loc_button_trip"
-        android:layout_width="250dp"
+    <EditText
+        android:id="@+id/loc_edit_trip"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/location"
-        app:layout_constraintLeft_toLeftOf="@id/edit_title_trip"
+        android:hint="@string/location"
+        app:layout_constraintLeft_toLeftOf="@id/window_background"
+        app:layout_constraintRight_toRightOf="@id/window_background"
         app:layout_constraintTop_toBottomOf="@id/date_button_trip" />
 
     <ImageButton
@@ -66,8 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/submit"
-        app:layout_constraintLeft_toLeftOf="@id/loc_button_trip"
-        app:layout_constraintRight_toRightOf="@id/loc_button_trip"
-        app:layout_constraintTop_toBottomOf="@id/loc_button_trip" />
+        app:layout_constraintLeft_toLeftOf="@id/loc_edit_trip"
+        app:layout_constraintRight_toRightOf="@id/loc_edit_trip"
+        app:layout_constraintTop_toBottomOf="@id/loc_edit_trip" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
