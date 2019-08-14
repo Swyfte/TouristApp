@@ -592,8 +592,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         dialog.show();
-
-        this.currentTrip.addImage(currentImage);
     }
 
     private ArrayList<String> getTags(String tagsList) {
