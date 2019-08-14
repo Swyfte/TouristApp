@@ -64,6 +64,7 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -133,7 +134,8 @@ public class MainActivity extends AppCompatActivity
                 if (currentTrip != null) {
                     try {
                         doPermissions(CAMERA_REQUEST_CODE);
-                        if (canCamera) openCameraIntent();
+                        //if (canCamera) openCameraIntent();
+                        openCameraIntent();
                     } catch (IOException e) {
                         Toast.makeText(MainActivity.this, "IOException caught", Toast.LENGTH_SHORT).show();
                     }
@@ -273,7 +275,8 @@ public class MainActivity extends AppCompatActivity
             File photoFile = null;
             try {
                 doPermissions(WRITE_REQUEST_CODE);
-                if (canWFiles) photoFile = makeImageFile();
+                //if (canWFiles) photoFile = makeImageFile();
+                photoFile = makeImageFile();
             } catch (IOException ex) {
                 Toast.makeText(this, "File make failed", Toast.LENGTH_SHORT).show();
                 System.out.println(ex);
@@ -504,7 +507,6 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-
                 Date d = new Date();
                 if (!date.getText().equals(getResources().getString(R.string.select_date))) {
                     DateFormat df = new SimpleDateFormat("dd-mm-yyyy", Locale.getDefault());
@@ -562,11 +564,11 @@ public class MainActivity extends AppCompatActivity
         ImageView image = dialog.findViewById(R.id.image_preview_2);
         image.setImageBitmap(currentImage.getPhoto());
 
-        TextView title = dialog.findViewById(R.id.title_edit_img);
-        TextView desc = dialog.findViewById(R.id.desc_edit_img);
-        TextView tags = dialog.findViewById(R.id.tags_edit_img);
-        Button submit = dialog.findViewById(R.id.submit_btn_img);
-        ImageButton close = dialog.findViewById(R.id.cancel_button_2);
+        final TextView title = dialog.findViewById(R.id.title_edit_img);
+        final TextView desc = dialog.findViewById(R.id.desc_edit_img);
+        final TextView tags = dialog.findViewById(R.id.tags_edit_img);
+        final Button submit = dialog.findViewById(R.id.submit_btn_img);
+        final ImageButton close = dialog.findViewById(R.id.cancel_button_2);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -575,9 +577,44 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentImage.setTitle(title.getText().toString());
+                currentImage.setDesc(desc.getText().toString());
+                ArrayList<String> tagsList = getTags(tags.getText().toString());
+                if (tagsList != null) {
+                    currentImage.setTags(tagsList);
+                }
+                currentTrip.addImage(currentImage);
+                currentImage = null;
+            }
+        });
         dialog.show();
 
         this.currentTrip.addImage(currentImage);
+    }
+
+    private ArrayList<String> getTags(String tagsList) {
+        int i = 0;
+        ArrayList<String> tags = new ArrayList<>();
+        while (i < tagsList.length()) {
+            String tag = "";
+            char c = tagsList.charAt(i);
+            if (!(c == ',')) {
+                String letter = String.valueOf(c);
+                tag = tag + letter;
+                i++;
+            } else {
+                tags.add(tag);
+                i += 2;
+            }
+        }
+        if (tags.size() > 0) {
+            return tags;
+        } else {
+            return null;
+        }
     }
 
     private void tripDialog() {
