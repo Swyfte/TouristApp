@@ -489,6 +489,7 @@ public class MainActivity extends AppCompatActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentImage = null;
                 dialog.dismiss();
             }
         });
@@ -571,6 +572,7 @@ public class MainActivity extends AppCompatActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentImage = null;
                 dialog.dismiss();
             }
         });
@@ -682,7 +684,7 @@ public class MainActivity extends AppCompatActivity
                 String t = titleBox.getText().toString();
                 String l = locEdit.getText().toString();
                 currentTrip = new Trip(t,d,l);
-                getSupportActionBar().setTitle(currentTrip.getTitle());
+                Objects.requireNonNull(getSupportActionBar()).setTitle(currentTrip.getTitle());
                 dialog.dismiss();
             }
         });
