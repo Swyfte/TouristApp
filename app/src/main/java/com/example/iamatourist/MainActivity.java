@@ -588,6 +588,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 currentTrip.addImage(currentImage);
                 currentImage = null;
+                dialog.dismiss();
             }
         });
         dialog.show();
@@ -692,7 +693,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             doPermissions(READ_REQUEST_CODE);
-            if (canRFiles) {
+            //if (canRFiles) {
                 Uri imageUri = Uri.parse(saveLoc);
                 File file = new File(imageUri.getPath());
                 try {
@@ -709,7 +710,7 @@ public class MainActivity extends AppCompatActivity
                             public void onScanCompleted(String s, Uri uri) {
                             }
                         });
-            }
+            //}
             firstDialog();
         }
     }
