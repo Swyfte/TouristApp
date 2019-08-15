@@ -18,7 +18,7 @@
     <string name="permissions">Tilatelser</string>
     <string name="camera">Kamera</string>
     <string name="tags">Tags…</string>
-    <string name="location">Velg sted</string>
+    <string name="location">Sted</string>
     <string name="gallery_access">Filtilgang</string>
     <string name="select_date">Velg dato</string>
     <string name="auto_fill">Auto-fyll</string>
