@@ -13,12 +13,8 @@ import android.widget.SearchView;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TripsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TripsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment allows the user to browse and search their saved trips.
+ * It would display them in a scrolling view.
  */
 public class TripsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -77,13 +73,6 @@ public class TripsFragment extends Fragment {
             }
         });
         return tripView;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
