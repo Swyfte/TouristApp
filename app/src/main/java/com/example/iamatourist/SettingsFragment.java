@@ -22,12 +22,8 @@ import android.widget.Toast;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SettingsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment controls the various settings, allowing the user to change language,
+ * revoke or grant permissions in-app, or to clear all saved data.
  */
 public class SettingsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

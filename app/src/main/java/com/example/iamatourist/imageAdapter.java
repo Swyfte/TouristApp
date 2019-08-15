@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * The image adapter that should link an image item onto an image_layout.xml layout.
+ */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
     private Context context;
 

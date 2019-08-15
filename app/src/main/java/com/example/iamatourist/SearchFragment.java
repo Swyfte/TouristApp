@@ -13,12 +13,8 @@ import android.widget.SearchView;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment would allow the user to search and find results for various different
+ * search terms.
  */
 public class SearchFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

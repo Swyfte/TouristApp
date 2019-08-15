@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * This adapter connects a trip to a trip_layout.xml.
+ */
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     private Context context;
 

@@ -15,12 +15,8 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SlideshowFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SlideshowFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment that allows the user to enter certain choices for their search
+ * and then displays images that match that search in a random order.
  */
 public class SlideshowFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -89,6 +85,10 @@ public class SlideshowFragment extends Fragment {
         return slideView;
     }
 
+    /**
+     * When the screen is turned horizontal from vertical, it launches a fullscreen image display.
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -98,6 +98,9 @@ public class SlideshowFragment extends Fragment {
         }
     }
 
+    /**
+     * Launch a new fullscreen activity
+     */
     private void launchFullscreen() {
         Intent i = new Intent(getActivity(), FullscreenActivity.class);
 
