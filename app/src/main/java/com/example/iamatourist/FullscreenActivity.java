@@ -18,8 +18,7 @@ import android.widget.ImageButton;
 import androidx.core.app.NavUtils;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * This activity controls fullscreen slideshow viewing
  */
 public class FullscreenActivity extends AppCompatActivity {
     /**
@@ -127,8 +126,13 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
+
         final ImageButton favButton = findViewById(R.id.fav_button_fullsc);
         favButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * When the favourite button is pressed, it changes whether or not the current image is
+             * favourited. It also changes the icon
+             */
             @Override
             public void onClick(View view) {
                 if(currentImage.isFav()) {
@@ -166,6 +170,11 @@ public class FullscreenActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * When the screen is rotated from horizontal to vertical,
+     * drop out of fullscreen mode
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
