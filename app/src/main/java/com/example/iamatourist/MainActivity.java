@@ -84,11 +84,12 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
     private boolean hasCamera = true;
-    private Trip currentTrip = null;
     private String saveLoc;
     private String appLanguage;
     private Bitmap cameraPhoto;
     private Image currentImage = null;
+    private ArrayList<Trip> trips = new ArrayList<>();
+    private Integer tripPos;
 
     boolean canCamera = false;
     boolean canWFiles = false;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (currentTrip != null) {
+                if (trips.size() > 0) {
                     try {
                         doPermissions(CAMERA_REQUEST_CODE);
                         //if (canCamera) openCameraIntent();
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity
      */
     private File makeImageFile() throws IOException {
         String fileName = "TempImage";
-        File StorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), ("/TouristApp/" + currentTrip.getTitle()));
+        File StorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), ("/TouristApp/" + trips.get(tripPos).getTitle()));
         StorageDir.mkdirs();
         File image = File.createTempFile(
                 fileName, ".jpg", StorageDir
@@ -580,13 +581,14 @@ public class MainActivity extends AppCompatActivity
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 currentImage.setTitle(title.getText().toString());
                 currentImage.setDesc(desc.getText().toString());
                 ArrayList<String> tagsList = getTags(tags.getText().toString());
                 if (tagsList != null) {
                     currentImage.setTags(tagsList);
                 }
-                currentTrip.addImage(currentImage);
+                trips.get(tripPos).addImage(currentImage);
                 currentImage = null;
                 dialog.dismiss();
             }
@@ -681,8 +683,10 @@ public class MainActivity extends AppCompatActivity
                 }
                 String t = titleBox.getText().toString();
                 String l = locEdit.getText().toString();
-                currentTrip = new Trip(t,d,l);
-                Objects.requireNonNull(getSupportActionBar()).setTitle(currentTrip.getTitle());
+                Trip tr = new Trip(t,d,l);
+                Objects.requireNonNull(getSupportActionBar()).setTitle(tr.getTitle());
+                trips.add(tr);
+                tripPos = trips.indexOf(tr);
                 dialog.dismiss();
             }
         });
@@ -747,8 +751,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             fab.show();
             f = new GalleryFragment();
-            if (currentTrip != null) {
-                title = currentTrip.getTitle();
+            if (trips.size() > 0) {
+                title = trips.get(tripPos).getTitle();
             } else {
                 title = getResources().getString(R.string.menu_home);
             }
