@@ -20,12 +20,8 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GalleryFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GalleryFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment displays the images from a single trip in a scrolling gallery
+ * format.
  */
 public class GalleryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -72,6 +68,15 @@ public class GalleryFragment extends Fragment {
         }
     }
 
+    /**
+     * Due to unknown issues, the data binding does not work, so the line has been commented out.
+     * Other than this, if the list of images is empty, then it hides the gallery and displays the
+     * default text.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
