@@ -584,7 +584,7 @@ public class MainActivity extends AppCompatActivity
 
                 currentImage.setTitle(title.getText().toString());
                 currentImage.setDesc(desc.getText().toString());
-                ArrayList<String> tagsList = getTags(tags.getText().toString());
+                ArrayList<String> tagsList = currentImage.extractTags(tags.getText().toString());
                 if (tagsList != null) {
                     currentImage.setTags(tagsList);
                 }
@@ -594,28 +594,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         dialog.show();
-    }
-
-    private ArrayList<String> getTags(String tagsList) {
-        int i = 0;
-        ArrayList<String> tags = new ArrayList<>();
-        while (i < tagsList.length()) {
-            String tag = "";
-            char c = tagsList.charAt(i);
-            if (!(c == ',')) {
-                String letter = String.valueOf(c);
-                tag = tag + letter;
-                i++;
-            } else {
-                tags.add(tag);
-                i += 2;
-            }
-        }
-        if (tags.size() > 0) {
-            return tags;
-        } else {
-            return null;
-        }
     }
 
     private void tripDialog() {
